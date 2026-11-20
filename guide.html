@@ -37,7 +37,7 @@ main{max-width:1100px;margin:auto;padding:42px 24px 70px}.hero{padding:10px 0 28
       <article class="card step"><span class="num">01</span><div><h3>選擇單筆或批次</h3><p>在左側切換「單筆編輯」與「批次匯入」。少量專題逐筆新增最直覺；多筆資料可下載 CSV 範本後一次匯入。</p></div></article>
       <article class="card step"><span class="num">02</span><div><h3>填資料並加入真正的海報圖</h3><p>每筆都要有代碼、專題名稱、班級及一張實際海報。頁面載入時看到的範例圖片只供預覽，<span class="warn">不能直接匯出</span>。</p></div></article>
       <article class="card step"><span class="num">03</span><div><h3>看右側即時預覽</h3><p>點清單中的資料即可切換編輯。圖片預設「完整顯示（留白）」；想填滿圖片框可改選「填滿（裁切）」。文字會自動縮放換行，仍建議檢查長標題。</p></div></article>
-      <article class="card step"><span class="num">04</span><div><h3>下載單張或整批 ZIP</h3><p>按預覽下方「下載這張 PNG」輸出目前一張；按頁面上方「下載全部 ZIP」打包所有正式資料。範例資料會略過，圖片缺漏或欄位未填時會提示先補齊。</p></div></article>
+      <article class="card step"><span class="num">04</span><div><h3>下載單張或整批 ZIP</h3><p>按預覽下方「下載這張 PNG」輸出目前一張；按頁面上方「下載全部 ZIP」打包所有正式資料。範例資料會略過；若個別資料缺欄位、圖片或製圖失敗，其他可用海報仍會下載，並以彈窗列出未匯出的資料與原因。</p></div></article>
     </div>
   </section>
 
@@ -74,7 +74,7 @@ main{max-width:1100px;margin:auto;padding:42px 24px 70px}.hero{padding:10px 0 28
   <section class="section">
     <h2 class="section-head">常見問題</h2>
     <div class="faq">
-      <article class="card"><h3>為什麼不能下載？</h3><p>每筆正式資料都必須有代碼、名稱、班級和實際圖片。範例圖只用來展示版型，請上傳自己的海報，再重新下載。</p></article>
+      <article class="card"><h3>ZIP 裡少了幾張海報怎麼辦？</h3><p>每筆正式資料都必須有代碼、名稱、班級和實際圖片。若有資料未通過檢查，其他可用海報仍會打包；請依彈窗中的代碼和原因補齊欄位或圖片，再重新下載。範例圖只用來展示版型，不能匯出。</p></article>
       <article class="card"><h3>圖片被裁掉了怎麼辦？</h3><p>把「圖片配置」改成「完整顯示（留白）」即可保留整張圖；「填滿（裁切）」會讓圖片填滿固定區域，邊緣可能被裁切。</p></article>
       <article class="card"><h3>我的資料儲存在哪裡？</h3><p>資料與圖片會自動儲存在目前瀏覽器的本機資料庫，不會由這個頁面上傳。換瀏覽器或裝置前，請先下載檔案備份。</p></article>
       <article class="card"><h3>剛匯入卻看不到資料？</h3><p>確認 CSV 有標題列，且代碼、名稱、班級欄位存在；每一列這三欄都需填寫。檔案格式錯誤時，頁面會顯示需要修正的提示。</p></article>

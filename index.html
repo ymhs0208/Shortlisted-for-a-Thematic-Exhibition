@@ -201,6 +201,24 @@ td .status{color:#287653;background:#eaf6ef;border-color:#d8eddf}
 @media(max-width:760px){.header-actions{gap:9px}.guide-link{padding:8px 9px;font-size:12px}}
 
 
+
+/* ZIP export error dialog */
+.export-issues-dialog{width:min(620px,calc(100vw - 28px));max-height:min(82vh,760px);overflow:hidden;padding:0;border:1px solid #e1e8ed;border-radius:18px;background:#fff;color:var(--ink);box-shadow:0 24px 80px rgba(19,48,67,.25)}
+.export-issues-dialog::backdrop{background:rgba(17,38,54,.48);backdrop-filter:blur(3px)}
+.export-issues-dialog .confirm-dialog-inner{display:flex;flex-direction:column;max-height:min(82vh,760px);padding:24px}
+.export-issues-dialog .confirm-dialog-icon{flex:0 0 42px;width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#fff4df;color:#986b1e;font-size:22px;font-weight:800}
+.export-issues-dialog h2{font-size:21px;line-height:1.35;margin:18px 0 9px;letter-spacing:-.02em}
+.export-issues-dialog p{font-size:14px;color:#687b86;line-height:1.75}
+.export-issues-dialog .export-issues-description{flex:0 0 auto}
+.export-issues-list{max-height:48vh;overflow:auto;margin:14px 0 0;padding:0;list-style:none;border:1px solid #e5ebef;border-radius:10px}
+.export-issues-list li{padding:11px 13px;border-bottom:1px solid #edf1f4;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.export-issues-list li:last-child{border-bottom:0}
+.export-issues-list strong{color:#27485d}
+.export-issues-list span{color:#8a5721}
+.export-issues-empty{padding:13px;color:#748590;font-size:13px}
+.export-issues-dialog .dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:23px}
+.export-issues-dialog button:focus-visible{outline:3px solid rgba(23,111,186,.25);outline-offset:2px}
+@media(max-width:760px){.export-issues-dialog .confirm-dialog-inner{padding:22px}.export-issues-dialog h2{font-size:19px}.export-issues-dialog .dialog-actions button{flex:1}}
 </style></head><body>
 <header><div class="brand"><img class="brand-icon" src="./favicon.png" alt="">海報製作室 <span class="tag">／ 專題成果展</span></div><div class="header-actions"><a class="guide-link" href="./guide.html">使用說明</a></div></header>
 <main class="wrap"><div class="heading"><div><h1>把每一份成果，放上舞台。</h1><p>匯入專題資料與圖片，快速製作一致、清晰的成果展海報。</p></div><div class="actions"><button id="sample">下載匯入範本</button><button class="primary" id="exportAll">下載全部 ZIP <span id="total">(1)</span></button></div></div>
@@ -255,7 +273,19 @@ const crcTable=Uint32Array.from({length:256},(_,n)=>{for(let k=0;k<8;k++)n=n&1?0
 function crc32(data){let c=0xffffffff;for(const b of data)c=crcTable[(c^b)&255]^(c>>>8);return (c^0xffffffff)>>>0}
 function zipHeader(size){const a=new Uint8Array(size);return {a,v:new DataView(a.buffer)}}
 async function zip(files){const chunks=[],central=[];let offset=0,centralSize=0;for(const f of files){const name=new TextEncoder().encode(f.name),data=new Uint8Array(await f.blob.arrayBuffer()),crc=crc32(data);const {a,v}=zipHeader(30);v.setUint32(0,0x04034b50,true);v.setUint16(4,20,true);v.setUint16(6,0x800,true);v.setUint32(14,crc,true);v.setUint32(18,data.length,true);v.setUint32(22,data.length,true);v.setUint16(26,name.length,true);chunks.push(a,name,data);const h=zipHeader(46);h.v.setUint32(0,0x02014b50,true);h.v.setUint16(4,20,true);h.v.setUint16(6,20,true);h.v.setUint16(8,0x800,true);h.v.setUint32(16,crc,true);h.v.setUint32(20,data.length,true);h.v.setUint32(24,data.length,true);h.v.setUint16(28,name.length,true);h.v.setUint32(42,offset,true);central.push(h.a,name);centralSize+=46+name.length;offset+=30+name.length+data.length}const end=zipHeader(22);end.v.setUint32(0,0x06054b50,true);end.v.setUint16(8,files.length,true);end.v.setUint16(10,files.length,true);end.v.setUint32(12,centralSize,true);end.v.setUint32(16,offset,true);return new Blob([...chunks,...central,end.a],{type:'application/zip'})}
-$('exportAll').onclick=async()=>{const b=$('exportAll');try{if(!records.length)throw Error('清單目前沒有資料');const exportRecords=records.filter(r=>!r.isStarter);if(!exportRecords.length)throw Error('目前只有範例資料；請新增或匯入正式專題');exportRecords.forEach(validate);b.disabled=true;const files=[];for(let i=0;i<exportRecords.length;i++){b.textContent=`產生中 ${i+1} / ${exportRecords.length}`;files.push({name:`${String(i+1).padStart(3,'0')}_${safe(exportRecords[i].code+'_'+exportRecords[i].name)}.png`,blob:await png(exportRecords[i])});await new Promise(requestAnimationFrame)}download(await zip(files),'成果展海報.zip');toast(`已打包 ${files.length} 張海報${exportRecords.length!==records.length?'（已略過範例資料）':''}`)}catch(err){toast(err.message)}finally{b.disabled=false;b.innerHTML='下載全部 ZIP <span id="total">('+records.length+')</span>'}};
+function showExportIssues(issues,exportedCount,fatalMessage=''){
+  let dialog=$('exportIssuesDialog');
+  if(!dialog){dialog=document.createElement('dialog');dialog.id='exportIssuesDialog';dialog.className='export-issues-dialog';dialog.setAttribute('aria-labelledby','exportIssuesTitle');dialog.innerHTML='<div class="confirm-dialog-inner"><div class="confirm-dialog-icon" aria-hidden="true">!</div><h2 id="exportIssuesTitle"></h2><p id="exportIssuesDescription" class="export-issues-description"></p><ul id="exportIssuesList" class="export-issues-list"></ul><div id="exportIssuesEmpty" class="export-issues-empty hidden"></div><div class="dialog-actions"><button id="closeExportIssues" type="button">關閉</button></div></div>';document.body.append(dialog);$('closeExportIssues').onclick=()=>dialog.close()}
+  const title=$('exportIssuesTitle'),description=$('exportIssuesDescription'),list=$('exportIssuesList'),empty=$('exportIssuesEmpty');
+  if(fatalMessage){title.textContent='ZIP 建立失敗';description.textContent=`${fatalMessage}；本次沒有成功下載 ZIP。`}
+  else if(exportedCount){title.textContent=`已打包 ${exportedCount} 張海報，${issues.length} 筆未匯出`;description.textContent='ZIP 已開始下載。以下資料因欄位、圖片或製圖錯誤未收錄，請修正後再重新下載。'}
+  else{title.textContent='沒有可匯出的海報';description.textContent='本次 ZIP 未建立。請修正下列資料後再試。'}
+  list.replaceChildren();
+  for(const issue of issues){const item=document.createElement('li'),label=document.createElement('strong'),reason=document.createElement('span');label.textContent=issue.label;reason.textContent=`：${issue.reason}`;item.append(label,reason);list.append(item)}
+  list.classList.toggle('hidden',!issues.length);empty.classList.toggle('hidden',!!issues.length);empty.textContent=fatalMessage&&!issues.length?'沒有單筆資料錯誤；請稍後重試，或檢查瀏覽器可用記憶體。':'目前沒有錯誤項目。';
+  dialog.showModal();$('closeExportIssues').focus()
+}
+$('exportAll').onclick=async()=>{const b=$('exportAll');try{if(!records.length)throw Error('清單目前沒有資料');const exportRecords=records.map((r,index)=>({r,index})).filter(({r})=>!r.isStarter);if(!exportRecords.length)throw Error('目前只有範例資料；請新增或匯入正式專題');b.disabled=true;const files=[],issues=[];for(let i=0;i<exportRecords.length;i++){const {r,index}=exportRecords[i];b.textContent=`產生中 ${i+1} / ${exportRecords.length}`;try{validate(r);const blob=await png(r);files.push({name:`${String(files.length+1).padStart(3,'0')}_${safe(r.code+'_'+r.name)}.png`,blob})}catch(err){issues.push({label:`第 ${index+1} 筆｜${r.code||'未填代碼'} — ${r.name||'未命名專題'}`,reason:err.message||'海報產生失敗'})}await new Promise(requestAnimationFrame)}if(!files.length){showExportIssues(issues,0);return}try{download(await zip(files),'成果展海報.zip');if(issues.length)showExportIssues(issues,files.length);else toast(`已打包 ${files.length} 張海報${exportRecords.length!==records.length?'（已略過範例資料）':''}`)}catch(err){showExportIssues(issues,0,err.message||'打包時發生未知錯誤')}}catch(err){toast(err.message)}finally{b.disabled=false;b.innerHTML='下載全部 ZIP <span id="total">('+records.length+')</span>'}};
 function openDB(){if(!dbPromise)dbPromise=new Promise((resolve,reject)=>{if(!('indexedDB'in window))return reject(Error('此瀏覽器不支援本機儲存'));const request=indexedDB.open(DB_NAME,DB_VERSION);request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('state'))request.result.createObjectStore('state')};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error||Error('無法開啟本機儲存'))});return dbPromise}
 function serialRecord(r){const {image,...data}=r;return {...data,imageBlob:r.imageBlob||null}}
 function readState(db){return new Promise((resolve,reject)=>{const req=db.transaction('state','readonly').objectStore('state').get('app');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||Error('無法讀取本機資料'))})}
