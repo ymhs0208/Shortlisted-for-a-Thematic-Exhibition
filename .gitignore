@@ -1,0 +1,5 @@
+# Keep generated previews and fixture data local; these may contain test records.
+*-preview*.png
+updated-poster-template-left-aligned.png
+new-template-preview*.html
+template-v2-assets/sample-poster.jpg
