@@ -27,16 +27,16 @@ main{max-width:1100px;margin:auto;padding:42px 24px 70px}.hero{padding:10px 0 28
   <section class="hero">
     <span class="eyebrow">快速上手指南</span>
     <h1>把資料整理好，海報就完成一大半。</h1>
-    <p class="intro">新增專題資料、放入海報圖片，再從即時預覽確認版面。少量資料可逐筆編輯；若有一整批成果，CSV 與批次圖片匯入會更有效率。</p>
+    <p class="intro">新增專題資料、放入海報圖片，再從即時預覽確認版面。少量資料可逐筆編輯；大量資料可直接匯入 Excel（.xlsx）、CSV／TSV，再批次加入海報圖片。</p>
     <div class="facts"><span class="fact"><strong>1920 × 1080</strong> PNG 輸出</span><span class="fact">JPG・PNG・WebP 圖片</span><span class="fact">最多管理 500 筆</span><span class="fact">資料留在目前瀏覽器</span></div>
   </section>
 
   <section class="section">
     <h2 class="section-head">基本流程：四步完成一張海報</h2>
     <div class="steps">
-      <article class="card step"><span class="num">01</span><div><h3>選擇單筆或批次</h3><p>在左側切換「單筆編輯」與「批次匯入」。少量專題逐筆新增最直覺；多筆資料可下載 CSV 範本後一次匯入。</p></div></article>
-      <article class="card step"><span class="num">02</span><div><h3>填資料並加入真正的海報圖</h3><p>每筆都要有代碼、專題名稱、班級及一張實際海報。頁面載入時看到的範例圖片只供預覽，<span class="warn">不能直接匯出</span>。</p></div></article>
-      <article class="card step"><span class="num">03</span><div><h3>看右側即時預覽</h3><p>點清單中的資料即可切換編輯。圖片預設「完整顯示（留白）」；想填滿圖片框可改選「填滿（裁切）」。文字會自動縮放換行，仍建議檢查長標題。</p></div></article>
+      <article class="card step"><span class="num">01</span><div><h3>選擇單筆或批次</h3><p>在左側切換「單筆編輯」與「批次匯入」。少量專題逐筆新增最直覺；多筆資料可直接上傳 Excel（.xlsx）或下載 CSV 範本匯入。</p></div></article>
+      <article class="card step"><span class="num">02</span><div><h3>填資料並加入真正的海報圖</h3><p>每筆都要有編號、專題名稱、班級及一張實際海報。頁面載入時看到的範例圖片只供預覽，<span class="warn">不能直接匯出</span>。</p></div></article>
+      <article class="card step"><span class="num">03</span><div><h3>搜尋、排序並看即時預覽</h3><p>在製作清單輸入關鍵字，可搜尋編號、專題名稱、班級、圖片狀態或檔名；點欄位標題即可升冪／降冪排序。點清單資料可切換編輯。圖片預設「完整顯示（留白）」；想填滿圖片框可改選「填滿（裁切）」。</p></div></article>
       <article class="card step"><span class="num">04</span><div><h3>下載單張或整批 ZIP</h3><p>按預覽下方「下載這張 PNG」輸出目前一張；按頁面上方「下載全部 ZIP」打包所有正式資料。範例資料會略過；若個別資料缺欄位、圖片或製圖失敗，其他可用海報仍會下載，並以彈窗列出未匯出的資料與原因。</p></div></article>
     </div>
   </section>
@@ -47,23 +47,23 @@ main{max-width:1100px;margin:auto;padding:42px 24px 70px}.hero{padding:10px 0 28
       <article class="card">
         <h3>先整理資料表</h3>
         <ul>
-          <li>在製作室按「下載匯入範本」，用試算表編輯後存成 CSV；也可直接從 Excel 複製表格，貼到批次頁的文字框。</li>
-          <li>第一列放欄位名稱；每筆資料一列。至少要有代碼、名稱、班級；海報檔名可稍後補，先匯入後再上傳圖片也可以。</li>
-          <li>CSV 支援 UTF-8、Big5；也接受以 Tab 分隔的貼上資料。每次匯入後會新增到清單，不會覆蓋已存在的紀錄。</li>
+          <li>可直接上傳 Excel（.xlsx）或 CSV 範本；也可從 Excel 複製表格，貼到批次頁的文字框。</li>
+          <li>第一列放欄位名稱；每筆資料一列。必填欄位為編號、名稱、班級；舊表格標題「代碼」也相容。海報檔名可稍後補，先匯入後再上傳圖片也可以。</li>
+          <li>支援 .xlsx（只讀第一個工作表）、UTF-8／Big5 CSV，以及 Tab 分隔的貼上資料。試算表在瀏覽器本機處理，不會上傳；每次匯入只新增資料，不會覆蓋既有紀錄。</li>
         </ul>
         <table class="table"><thead><tr><th>欄位</th><th>用途</th><th>範例</th></tr></thead><tbody>
-          <tr><td>代碼</td><td>必填；也可用來配對圖片</td><td><span class="mono">A01</span></td></tr>
+          <tr><td>編號</td><td>必填；也可用來配對圖片</td><td><span class="mono">A01</span></td></tr>
           <tr><td>名稱</td><td>必填；海報上的專題名稱</td><td>智慧步態分析</td></tr>
           <tr><td>班級</td><td>必填</td><td>資管四甲</td></tr>
           <tr><td>海報檔名</td><td>選填；指定配對圖片</td><td><span class="mono">A01.jpg</span></td></tr>
         </tbody></table>
-        <div class="note">標題也可用英文：<span class="mono">code</span>、<span class="mono">name</span>、<span class="mono">class</span>；檔名欄可用 <span class="mono">filename</span> 或 <span class="mono">poster</span>。</div>
+        <div class="note">編號欄也接受舊標題「代碼」或英文 <span class="mono">code</span>；其他標題也可用英文：<span class="mono">name</span>、<span class="mono">class</span>；檔名欄可用 <span class="mono">filename</span> 或 <span class="mono">poster</span>。</div>
       </article>
       <article class="card">
         <h3>再一次選取多張海報圖片</h3>
         <ul>
           <li>在「批次匯入」頁面選「批次選擇海報圖片」，可一次選取 JPG、PNG 或 WebP。</li>
-          <li>有填「海報檔名」時，圖片名稱需與欄位相符；未填檔名時，系統改用代碼配對。例如代碼 <span class="mono">A01</span> 對應 <span class="mono">A01.jpg</span>。</li>
+          <li>有填「海報檔名」時，圖片名稱需與欄位相符；未填檔名時，系統改用編號配對。例如編號 <span class="mono">A01</span> 對應 <span class="mono">A01.jpg</span>。</li>
           <li>回到製作清單檢查圖片狀態；「缺少圖片」代表還沒配對成功，可在單筆編輯中直接上傳。</li>
         </ul>
         <div class="note green">批次匯入資料與批次選圖可分兩次操作。已在單筆編輯中人工上傳的圖片，不會被批次配對覆蓋。</div>
@@ -74,10 +74,10 @@ main{max-width:1100px;margin:auto;padding:42px 24px 70px}.hero{padding:10px 0 28
   <section class="section">
     <h2 class="section-head">常見問題</h2>
     <div class="faq">
-      <article class="card"><h3>ZIP 裡少了幾張海報怎麼辦？</h3><p>每筆正式資料都必須有代碼、名稱、班級和實際圖片。若有資料未通過檢查，其他可用海報仍會打包；請依彈窗中的代碼和原因補齊欄位或圖片，再重新下載。範例圖只用來展示版型，不能匯出。</p></article>
+      <article class="card"><h3>ZIP 裡少了幾張海報怎麼辦？</h3><p>每筆正式資料都必須有編號、名稱、班級和實際圖片。若有資料未通過檢查，其他可用海報仍會打包；請依彈窗中的編號和原因補齊欄位或圖片，再重新下載。範例圖只用來展示版型，不能匯出。</p></article>
       <article class="card"><h3>圖片被裁掉了怎麼辦？</h3><p>把「圖片配置」改成「完整顯示（留白）」即可保留整張圖；「填滿（裁切）」會讓圖片填滿固定區域，邊緣可能被裁切。</p></article>
       <article class="card"><h3>我的資料儲存在哪裡？</h3><p>資料與圖片會自動儲存在目前瀏覽器的本機資料庫，不會由這個頁面上傳。換瀏覽器或裝置前，請先下載檔案備份。</p></article>
-      <article class="card"><h3>剛匯入卻看不到資料？</h3><p>確認 CSV 有標題列，且代碼、名稱、班級欄位存在；每一列這三欄都需填寫。檔案格式錯誤時，頁面會顯示需要修正的提示。</p></article>
+      <article class="card"><h3>剛匯入卻看不到資料？</h3><p>確認 CSV 或 Excel 第一個工作表有標題列，且包含編號（或舊欄名「代碼」）、名稱、班級欄位；每筆資料這三欄都需填寫。格式錯誤時，頁面會提示需要修正的內容。</p></article>
     </div>
   </section>
 
