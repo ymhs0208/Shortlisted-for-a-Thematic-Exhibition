@@ -237,9 +237,26 @@ th[aria-sort="ascending"] .sort-indicator,th[aria-sort="descending"] .sort-indic
 .export-issues-list strong{color:#27485d}
 .export-issues-list span{color:#8a5721}
 .export-issues-empty{padding:13px;color:#748590;font-size:13px}
+
+.domain-panel{margin:0 0 22px;padding:20px 21px 21px;border:1px solid #e0e9ef;border-radius:17px;background:rgba(255,255,255,.96);box-shadow:var(--shadow)}
+.domain-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:15px}
+.domain-heading h2{margin:0 0 5px;font-size:16px;letter-spacing:.01em}
+.domain-heading p{font-size:12px;color:#788992;line-height:1.5}
+.domain-total{flex:0 0 auto;padding:7px 11px;border:1px solid #deebf5;border-radius:99px;background:#edf5fb;color:#1768a8;font-size:12px;font-weight:700}
+.domain-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.domain-card{min-width:0;min-height:105px;padding:12px 13px;border:1px solid #e4edf1;border-radius:12px;background:linear-gradient(145deg,#fbfdfe,#f6f9fb)}
+.domain-card-top{display:flex;align-items:flex-start;gap:8px;min-height:42px}
+.domain-code{flex:0 0 25px;width:25px;height:25px;display:grid;place-items:center;border-radius:8px;background:#eaf4fb;color:#1768a8;font-size:12px;font-weight:800}
+.domain-label{padding-top:2px;color:#47616e;font-size:12px;line-height:1.45;font-weight:600;overflow-wrap:anywhere}
+.domain-card-count{display:flex;align-items:baseline;gap:5px;margin-top:3px;color:#82919a}
+.domain-card-count strong{color:#17364d;font-size:25px;line-height:1;font-weight:750;font-variant-numeric:tabular-nums}
+.domain-card-count span{font-size:11px}
+@media(max-width:1150px){.domain-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:760px){.domain-panel{margin-bottom:16px;padding:16px 14px;border-radius:15px}.domain-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.domain-card{min-height:99px;padding:11px}.domain-heading{margin-bottom:12px}}
 </style></head><body>
 <header><div class="brand"><img class="brand-icon" src="./favicon.png" alt="">海報製作室 <span class="tag">／ 專題成果展</span></div><div class="header-actions"><a class="guide-link album-open" id="openGallery" href="./gallery.html">圖片相簿 <span id="galleryTopCount">0 張</span></a><a class="guide-link" href="./guide.html">使用說明</a></div></header>
 <main class="wrap"><div class="heading"><div><h1>把每一份成果，放上舞台。</h1><p>匯入專題資料與圖片，快速製作一致、清晰的成果展海報。</p></div><div class="actions"><button id="sample">下載匯入範本</button><button class="primary" id="exportAll">下載全部 ZIP <span id="total">(1)</span></button><button id="clearAll" type="button" aria-haspopup="dialog">刪除全部資料</button></div></div>
+<section class="domain-panel" aria-labelledby="domainStatsTitle"><div class="domain-heading"><div><h2 id="domainStatsTitle">領域數量統計</h2><p>依編號首碼統計；內建範例及未符合 A–F、N 的編號不列入。</p></div><span class="domain-total" id="domainTotal">已分類 0 件</span></div><div class="domain-grid" id="domainStats" role="list" aria-live="polite"></div></section>
 <div class="workspace"><aside class="panel"><div class="tabs" role="tablist"><button class="active" id="tabSingle" role="tab" aria-selected="true">單筆編輯</button><button id="tabBatch" role="tab" aria-selected="false">批次匯入</button></div><div class="body"><section id="single"><h2 class="section-title">專題資料 <span id="editIndex">第 1 筆</span></h2><div class="field"><label for="code">編號</label><input id="code" placeholder="例：A01" maxlength="60"></div><div class="field"><label for="name">專題名稱</label><input id="name" placeholder="輸入專題名稱" maxlength="160"></div><div class="field"><label for="className">班級</label><input id="className" placeholder="例：資管四甲" maxlength="100"></div><div class="field"><label>專題海報</label><label class="upload" for="poster"><strong>＋</strong><b>選擇海報圖片</b><br>JPG、PNG、WebP · 建議直式圖片</label><input type="file" id="poster" accept="image/jpeg,image/png,image/webp"><div class="help" id="imageName">已載入範例海報，可上傳替換</div></div><div class="row field"><label for="fit">圖片配置</label><select id="fit" style="width:175px"><option value="contain">完整顯示（留白）</option><option value="cover">填滿（裁切）</option></select></div><div class="actions"><button id="add" class="primary" style="flex:1">＋ 新增一筆</button><button id="remove">刪除此筆</button><button id="undoDelete" class="small hidden">復原刪除</button></div></section>
 <section id="batch" class="hidden"><h2 class="section-title">一次匯入整批專題</h2><label class="upload" for="spreadsheet"><strong>▤</strong><b>匯入 Excel 或 CSV 資料表</b><br>支援 .xlsx、CSV／TSV</label><input type="file" id="spreadsheet" accept=".xlsx,.csv,.tsv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,text/tab-separated-values"><p class="help">欄位：編號、名稱、班級、海報檔名（舊表頭「代碼」也相容）。Excel 只讀取第一個工作表；資料在瀏覽器本機處理，匯入會新增資料，不會覆蓋現有內容。</p><div class="divider"></div><div class="field"><label for="paste">或從 Excel 複製並貼上</label><textarea id="paste" rows="5" placeholder="編號&#9;名稱&#9;班級&#9;海報檔名&#10;A01&#9;智慧步態分析&#9;資管四甲&#9;A01.jpg"></textarea></div><button id="importPaste" class="full">匯入貼上資料</button><div class="divider"></div><label class="upload" for="images"><strong>▧</strong><b>批次選擇海報圖片</b><br>可一次選取多張</label><input type="file" id="images" accept="image/jpeg,image/png,image/webp" multiple><p class="help">先匯入資料，再選圖片。依「海報檔名」配對；未填檔名時，依編號配對，例如 A01.jpg。</p><div class="hint" style="margin-top:18px">下載前請檢查清單中的「缺少圖片」提示。全部海報會以 1920 × 1080 PNG 打包為 ZIP。</div></section>
 <div class="divider"></div><details><summary>版型與使用說明</summary><p>採用你提供的新海報模板。編號、專題名稱與班級會自動縮放換行；長文字請檢查預覽。</p><p>資料不會上傳，並會自動儲存在這個瀏覽器；重要成果仍建議下載備份。批次匯入支援 Excel（.xlsx，只讀第一個工作表）、CSV／TSV，也可直接貼上試算表資料。</p><p>海報圖片放入右側固定區域；預設完整顯示，亦可切換填滿裁切。</p></details></div></aside>
@@ -257,8 +274,16 @@ function current(){return records[selected]}
 function setTab(batch){$('single').classList.toggle('hidden',batch);$('batch').classList.toggle('hidden',!batch);for(const [id,on] of [['tabSingle',!batch],['tabBatch',batch]]){$(id).classList.toggle('active',on);$(id).setAttribute('aria-selected',on)}}
 $('tabSingle').onclick=()=>setTab(false);$('tabBatch').onclick=()=>setTab(true);
 function sync(){const r=current();for(const [id,key] of [['code','code'],['name','name'],['className','className'],['fit','fit']])$(id).value=r?.[key]??(id==='fit'?'contain':'');$('imageName').textContent=r?.imageSource==='demo'?'範例預覽圖片（不會匯出）；請上傳實際海報':(r?.imageLabel||'尚未加入圖片');$('editIndex').textContent=r?`第 ${selected+1} 筆`:'尚未建立';$('remove').disabled=!r;$('undoDelete').classList.toggle('hidden',!deleteHistory.length);list();draw()}
+const DOMAINS=[['A','企業智慧化'],['B','數位內容與多媒體應用'],['C','網路應用與資通安全'],['D','嵌入式系統與行動計算'],['E','智慧運算創新應用'],['F','智慧流通應用與研究'],['N','進修部']];
+function updateDomainStats(){
+  const counts=Object.fromEntries(DOMAINS.map(([code])=>[code,0]));
+  for(const record of records){if(record.isStarter)continue;const code=String(record.code||'').trim().charAt(0).toUpperCase();if(Object.prototype.hasOwnProperty.call(counts,code))counts[code]++}
+  const total=Object.values(counts).reduce((sum,count)=>sum+count,0);
+  $('domainTotal').textContent=`已分類 ${total} 件`;
+  $('domainStats').innerHTML=DOMAINS.map(([code,name])=>`<div class="domain-card" role="listitem" aria-label="${code} ${escapeHTML(name)}，${counts[code]} 件"><div class="domain-card-top"><span class="domain-code">${code}</span><span class="domain-label">${escapeHTML(name)}</span></div><div class="domain-card-count"><strong>${counts[code]}</strong><span>件</span></div></div>`).join('');
+}
 function list(){
-  $('count').textContent=`${records.length} 筆`;$('total').textContent=`(${records.length})`;$('galleryTopCount').textContent=`${records.length} 張`;
+  $('count').textContent=`${records.length} 筆`;$('total').textContent=`(${records.length})`;$('galleryTopCount').textContent=`${records.length} 張`;updateDomainStats();
   const query=$('recordSearch').value.trim().toLocaleLowerCase();
   const items=records.map((r,i)=>{const realImage=!!r.image&&r.imageSource!=='demo',status=realImage?'已就緒':r.imageSource==='demo'?'範例預覽':'缺少圖片';return {r,i,realImage,status}}).filter(({r,status})=>!query||[r.code,r.name,r.className,r.filename,r.imageLabel,status].join(' ').toLocaleLowerCase().includes(query));
   const collator=new Intl.Collator('zh-Hant-TW',{numeric:true,sensitivity:'base'});
