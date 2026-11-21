@@ -21,7 +21,13 @@ cd /path/to/Shortlisted-for-a-Thematic-Exhibition
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-接著前往 <http://127.0.0.1:8000/>。若要停止伺服器，在終端機按 `Ctrl+C`。請保留專案的 `assets/`、`vendor/` 目錄及同層的 HTML、JavaScript 檔案，以確保版型與 Excel 匯入功能可正常載入。
+接著前往 <http://127.0.0.1:8000/>。若要停止伺服器，在終端機按 `Ctrl+C`。請保留 `assets/`、`css/`、`js/`、`vendor/` 與三個 HTML 頁面，版型、預覽與 Excel 匯入才會正常載入。以 HTTP 開啟時，模板直接讀取 `assets/` 裡的圖片，不需要額外產生檔案。
+
+若用 `file://` 直接開啟頁面，Chromium 會把每張模板圖視為不同來源，畫布被污染後就無法匯出。這時才需要把模板嵌成 data URL。產生的 `assets/local-template-images.js` 約數 MB，不納入版本庫；模板圖片更新後再執行：
+
+```bash
+node scripts/embed-local-templates.mjs
+```
 
 ## 建議操作流程
 
@@ -32,7 +38,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 5. 在製作清單確認圖片狀態，點選資料檢查即時預覽，並選擇「完整顯示（留白）」或「填滿（裁切）」。
 6. 下載單張 PNG，或使用「下載全部 ZIP」輸出符合條件的海報。只有實際加入的圖片可供匯出。
 
-可使用「下載匯入範本」取得 CSV 欄位範本。每次最多管理 500 筆資料。
+可使用「下載匯入範本」取得 CSV 欄位範本。每次最多管理 500 筆資料；單筆「新增一筆」與批次匯入都受此上限限制。
 
 ## 資料與隱私
 
@@ -42,14 +48,34 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 ## 專案檔案
 
+頁面仍是靜態 HTML，樣式與程式拆到 `css/`、`js/`，以 `<script type="module">` 載入，不需要框架或建置。頁首與頁尾的 HTML 留在各頁：導覽連結不同，而且使用教學頁不依賴 JavaScript。
+
 - `index.html`：海報製作室與資料管理介面。
 - `gallery.html`：圖片相簿與幻燈片。
 - `guide.html`：網頁版操作指南。
-- `poster-renderer.js`：海報版面繪製與預覽。
-- `assets/nutc-exhibition-template.png`：海報版型素材。
+- `css/`：設計變數、頁首、頁尾、三個頁面與窄螢幕版面。
+- `js/db.js`：製作室與圖片相簿共用的 IndexedDB（資料庫 `thematic-exhibition-poster-studio`，物件存放區 `state`，鍵值 `app`）。
+- `js/poster-renderer.js`：六種海報版面的繪製與預覽。
+- `js/import.js`、`js/export-zip.js`：匯入解析與 ZIP 打包，可在沒有瀏覽器的情況下測試。
+- `js/studio.js`、`js/gallery.js`：兩個頁面的操作邏輯。
+- `assets/`：六張海報模板圖。
 - `vendor/xlsx.full.min.js`：本機使用的 Excel 試算表解析程式。
+- `scripts/embed-local-templates.mjs`：產生 `file://` 用的模板嵌入檔。
 - `系統使用說明書.pdf`：使用說明書。
+
+純函式測試不需要安裝套件：
+
+```bash
+node --test
+```
 
 ## 模板選擇
 
-海報預覽上方的「選擇模板」可切換原始模板、暖米色電路模板及簡約學院模板。所選模板會自動儲存，並套用至全部專題的即時預覽、PNG／ZIP 匯出，以及圖片相簿的製作海報與幻燈片。三種模板各自設定編號、班級、專題名稱及海報的繪製位置。
+海報預覽上方的「選擇模板」可切換下列六種版型。所選模板會自動儲存，並套用至全部專題的即時預覽、PNG／ZIP 匯出，以及圖片相簿的製作海報與幻燈片。每種模板各自設定編號、班級、專題名稱及海報的繪製位置。
+
+- 原始模板（`assets/nutc-exhibition-template.png`）
+- 暖米色電路模板（`assets/nutc-exhibition-warm.png`）
+- 簡約學院模板（`assets/nutc-exhibition-minimal.jpg`）
+- 入圍專題成果展背景模板（`assets/nutc-exhibition-shortlist.png`）
+- 藍色活字成果展模板（`assets/letterpress-showcase.png`）
+- 年度主視覺橫幅模板（`assets/annual-banner-showcase.png`）
