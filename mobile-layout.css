@@ -1,7 +1,5 @@
-.mobile-studio-nav { display:none }
 
 @media (max-width:760px) {
-  .studio-page { padding-bottom:calc(62px + env(safe-area-inset-bottom, 0px)) }
   .studio-page .wrap {
     display:grid;
     grid-template-columns:minmax(0,1fr);
@@ -19,7 +17,6 @@
   }
   .studio-page button,.studio-page label.upload { min-height:44px }
   .studio-page .heading button { padding:8px 5px; font-size:13px }
-  .studio-page #clearAll { grid-column:1 / -1; justify-self:start; padding-inline:10px }
   .studio-page .workspace { display:grid; grid-template-columns:minmax(0,1fr); gap:14px }
   .studio-page .workspace > * { order:0; min-width:0 }
   .studio-page .domain-panel { order:1; margin:0; padding:14px }
@@ -46,32 +43,7 @@
   .studio-page .template-option { padding:5px }
   .studio-page .template-option-caption { font-size:12px }
   .studio-page .template-option:focus-visible { outline:2px solid #176fba; outline-offset:2px }
-  .mobile-studio-nav {
-    position:fixed;
-    z-index:6;
-    inset:auto 0 0;
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:5px;
-    padding:6px 10px calc(6px + env(safe-area-inset-bottom, 0px));
-    border-top:1px solid #dce7f0;
-    background:#fff;
-    box-shadow:0 -4px 16px #16345312;
-  }
-  .mobile-studio-nav a {
-    display:grid;
-    place-items:center;
-    min-height:44px;
-    padding:4px;
-    border-radius:8px;
-    background:#edf4fa;
-    color:#174d82;
-    text-decoration:none;
-    font-size:13px;
-    font-weight:750;
-  }
-  .mobile-studio-nav a:hover,.mobile-studio-nav a:focus-visible { background:#dcebf8; outline:2px solid #176fba }
-  .studio-page #message { bottom:calc(68px + env(safe-area-inset-bottom, 0px)) }
+  .studio-page #message { bottom:calc(16px + env(safe-area-inset-bottom, 0px)) }
 
   .gallery-page .wrap { padding:18px 14px 8px }
   .gallery-page .intro-actions { align-items:stretch }
