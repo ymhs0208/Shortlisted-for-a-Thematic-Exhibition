@@ -335,6 +335,16 @@ label.operation-busy{pointer-events:none;background:#f0f6fc}
 @media(prefers-reduced-motion:reduce){.studio-loading-block::after{display:none}}
 .queue-danger-actions{display:flex;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--line)}
 .queue-danger-actions button{padding:7px 11px;font-size:13px}
+
+.studio-tour {position:fixed;z-index:8;right:16px;bottom:max(16px,env(safe-area-inset-bottom));width:min(370px,calc(100% - 32px));padding:13px 14px;border:1px solid #b0cee9;border-radius:12px;background:#fff;color:#163453;box-shadow:0 8px 30px #17364d30}
+.studio-tour-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.studio-tour-head strong{color:#175aa5;font-size:14px}
+.studio-tour button{min-height:34px;padding:5px 9px;font-size:13px}
+.studio-tour p{margin:6px 0 0;color:#244763;line-height:1.5;font-size:14px}
+.tour-target{outline:3px solid #176fba!important;outline-offset:3px;scroll-margin:92px 0 155px}
+body.tour-in-progress{padding-bottom:145px}
+body.tour-in-progress #message{bottom:150px}
+@media(max-width:760px){.studio-tour button{min-height:44px}}
 </style><link rel="stylesheet" href="./site-header.css">
 <link rel="stylesheet" href="./site-footer.css">
 <link rel="stylesheet" href="./mobile-layout.css">
@@ -348,7 +358,7 @@ label.operation-busy{pointer-events:none;background:#f0f6fc}
     <div class="exhibition-subtitle">海報製作室</div>
     </div>
   </div>
-  <div class="header-actions"><a class="guide-link album-open" id="openGallery" href="./gallery.html"><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="7" y="7" width="14" height="14" rx="2"/><path d="M17 3H5a2 2 0 0 0-2 2v12m4 1 4-4 3 3 3-4 4 4"/><circle cx="11" cy="11" r="1"/></svg>圖片相簿 <span id="galleryTopCount">0 張</span></a><a class="guide-link" href="./guide.html"><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 6c-2-2-5-3-9-2v15c4-1 7 0 9 2 2-2 5-3 9-2V4c-4-1-7 0-9 2v15"/></svg>使用說明</a></div></header>
+  <div class="header-actions"><a class="guide-link album-open" id="openGallery" href="./gallery.html"><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="7" y="7" width="14" height="14" rx="2"/><path d="M17 3H5a2 2 0 0 0-2 2v12m4 1 4-4 3 3 3-4 4 4"/><circle cx="11" cy="11" r="1"/></svg>圖片相簿 <span id="galleryTopCount">0 張</span></a><a class="guide-link" href="./guide.html"><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 6c-2-2-5-3-9-2v15c4-1 7 0 9 2 2-2 5-3 9-2V4c-4-1-7 0-9 2v15"/></svg>使用教學</a></div></header>
 <div class="wrap studio-loading" id="studioLoading" role="status">
   <p class="studio-loading-status">正在載入專題資料與海報模板…</p>
   <div class="studio-loading-grid" aria-hidden="true">
@@ -372,7 +382,7 @@ label.operation-busy{pointer-events:none;background:#f0f6fc}
 <section class="domain-panel" aria-labelledby="domainStatsTitle"><div class="domain-heading"><div><h2 id="domainStatsTitle">領域數量統計</h2><p>依編號首碼統計；內建範例及未符合 A–F、N 的編號不列入。</p></div><span class="domain-total" id="domainTotal">已分類 0 件</span></div><div class="domain-grid" id="domainStats" role="list" aria-live="polite"></div></section>
 <div class="workspace"><aside class="panel" id="mobile-edit"><div class="tabs" role="tablist"><button class="active" id="tabSingle" role="tab" aria-selected="true">單筆編輯</button><button id="tabBatch" role="tab" aria-selected="false">批次匯入</button></div><div class="body"><section id="single"><h2 class="section-title">專題資料 <span id="editIndex">可直接輸入</span></h2><div class="field"><label for="code">編號</label><input id="code" placeholder="例：A01" maxlength="60"></div><div class="field"><label for="className">班級</label><input id="className" placeholder="例：資管四甲" maxlength="100"></div><div class="field"><label for="name">專題名稱</label><input id="name" placeholder="輸入專題名稱" maxlength="160"></div><div class="field"><label>專題海報</label><label class="upload" for="poster"><span class="upload-icon"><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m3 17 5-4 4 3 4-5 5 5"/></svg></span><b>選擇海報圖片</b><br>JPG、PNG、WebP · 建議直式圖片</label><input type="file" id="poster" accept="image/jpeg,image/png,image/webp"><div class="help" id="imageName">尚未加入圖片</div></div><div class="row field"><label for="fit">圖片配置</label><select id="fit" style="width:175px"><option value="contain">完整顯示（留白）</option><option value="cover">填滿（裁切）</option></select></div><div class="actions"><button id="add" class="primary" style="flex:1"><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>新增一筆</button><button id="remove">刪除此筆</button><button id="undoDelete" class="small hidden">復原刪除</button></div></section>
 <section id="batch" class="hidden"><h2 class="section-title">一次匯入整批專題</h2><label class="upload" for="spreadsheet"><span class="upload-icon"><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M10 9v11M16 9v11"/></svg></span><b>匯入 Excel 或 CSV 資料表</b><br>支援 .xlsx、CSV／TSV</label><input type="file" id="spreadsheet" accept=".xlsx,.csv,.tsv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,text/tab-separated-values"><p class="help">欄位：編號、名稱、班級、海報檔名（舊表頭「代碼」也相容）。Excel 只讀取第一個工作表；資料在瀏覽器本機處理。若編號已存在，會先詢問要覆寫重複資料或全部新增。</p><div class="divider"></div><div class="field"><label for="paste">或從 Excel 複製並貼上</label><textarea id="paste" rows="5" placeholder="編號&#9;名稱&#9;班級&#9;海報檔名"></textarea></div><button id="importPaste" class="full"><span class="operation-label">匯入貼上資料</span></button><div class="divider"></div><label class="upload" for="images"><span class="upload-icon"><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="7" y="7" width="14" height="14" rx="2"/><path d="M17 3H5a2 2 0 0 0-2 2v12m4 1 4-4 3 3 3-4 4 4"/><circle cx="11" cy="11" r="1"/></svg></span><b>批次選擇海報圖片</b><br>可一次選取多張</label><input type="file" id="images" multiple><p class="help">先匯入資料，再選圖片。依「海報檔名」或編號的檔名主體配對，不看副檔名；格式由瀏覽器實際解碼判定。若同一編號有多張圖片，會請你選擇；無法解碼或無法安全輸出的檔案會逐一列出。</p><div id="batchImageResults" class="hint batch-image-results hidden" aria-live="polite"></div><div class="hint" style="margin-top:18px">下載前請檢查清單中的「缺少圖片」提示。全部海報會以 1920 × 1080 PNG 打包為 ZIP。</div></section>
-<div class="divider"></div><details><summary>版型與使用說明</summary><p>採用你提供的新海報模板。編號、專題名稱與班級會自動縮放換行；長文字請檢查預覽。</p><p>資料不會上傳，並會自動儲存在這個瀏覽器；重要成果仍建議下載備份。批次匯入支援 Excel（.xlsx，只讀第一個工作表）、CSV／TSV，也可直接貼上試算表資料。</p><p>海報圖片放入右側固定區域；預設完整顯示，亦可切換填滿裁切。</p></details></div></aside>
+<div class="divider"></div><details><summary>版型與使用教學</summary><p>採用你提供的新海報模板。編號、專題名稱與班級會自動縮放換行；長文字請檢查預覽。</p><p>資料不會上傳，並會自動儲存在這個瀏覽器；重要成果仍建議下載備份。批次匯入支援 Excel（.xlsx，只讀第一個工作表）、CSV／TSV，也可直接貼上試算表資料。</p><p>海報圖片放入右側固定區域；預設完整顯示，亦可切換填滿裁切。</p></details></div></aside>
 <div><section class="panel" id="mobile-preview"><div class="preview-head"><h2>海報預覽</h2><button class="small" id="openTemplates" type="button" aria-haspopup="dialog" disabled><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M11 4v16M14 9h4m-4 4h4"/></svg>選擇模板</button></div><div class="stage"><canvas id="canvas" width="1920" height="1080" aria-label="成果展海報即時預覽"></canvas></div><div class="preview-foot"><span id="templateCaption">原始模板 · 1920 × 1080 px</span><button class="small" id="exportOne"><svg class="action-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/></svg><span class="operation-label">下載這張 PNG</span></button></div></section><section class="panel queue" id="mobile-records"><div class="queue-head"><h2>製作清單 <span id="count" style="color:#8895a6;font-weight:400">1 筆</span></h2><span class="help" style="margin:0">點選資料即可編輯</span></div><div class="queue-tools"><label class="record-search"><input id="recordSearch" type="search" placeholder="搜尋編號、專題名稱、班級、圖片狀態…" aria-label="搜尋製作清單"></label><span id="resultCount" class="search-meta" aria-live="polite"></span></div><div class="table-wrap"><table><thead><tr><th data-sort-column="code" aria-sort="none"><button class="sort-button" type="button" data-sort="code" aria-label="依編號排序">編號 <span class="sort-indicator" aria-hidden="true">↕</span></button></th><th data-sort-column="name" aria-sort="none"><button class="sort-button" type="button" data-sort="name" aria-label="依專題名稱排序">專題名稱 <span class="sort-indicator" aria-hidden="true">↕</span></button></th><th data-sort-column="className" aria-sort="none"><button class="sort-button" type="button" data-sort="className" aria-label="依班級排序">班級 <span class="sort-indicator" aria-hidden="true">↕</span></button></th><th data-sort-column="status" aria-sort="none"><button class="sort-button" type="button" data-sort="status" aria-label="依圖片狀態排序">圖片／狀態 <span class="sort-indicator" aria-hidden="true">↕</span></button></th></tr></thead><tbody id="records"></tbody></table></div><div class="queue-danger-actions"><button id="clearAll" type="button" aria-haspopup="dialog">刪除全部資料</button></div></section></div></div></main>
 <footer class="site-footer">
   <strong class="site-footer-title">國立臺中科技大學</strong>
@@ -386,7 +396,10 @@ label.operation-busy{pointer-events:none;background:#f0f6fc}
   <p class="template-note">點選縮圖即可套用至全部專題。</p>
   <div class="template-grid" id="templateGrid"></div>
   <p class="template-status" id="templateStatus" role="status"></p>
-</dialog><dialog id="clearAllDialog" class="confirm-dialog" aria-labelledby="clearAllTitle" aria-describedby="clearAllDescription"><div class="confirm-dialog-inner"><div class="confirm-dialog-icon" aria-hidden="true">!</div><h2 id="clearAllTitle">確定要刪除全部資料？</h2><p id="clearAllDescription">此操作會清除這個瀏覽器儲存的所有專題資料與已匯入圖片，並移除刪除復原紀錄。完成後無法復原。</p><div id="clearAllCount" class="delete-count"></div><div class="dialog-actions"><button id="cancelClearAll" type="button">取消</button><button id="confirmClearAll" class="danger" type="button">刪除全部資料</button></div></div></dialog><dialog id="duplicateImportDialog" class="confirm-dialog import-duplicate-dialog" aria-labelledby="duplicateImportTitle" aria-describedby="duplicateImportDescription"><div class="confirm-dialog-inner"><div class="confirm-dialog-icon import-duplicate-icon" aria-hidden="true">↻</div><h2 id="duplicateImportTitle">匯入資料含有重複編號</h2><p id="duplicateImportDescription">這批資料中有 <strong id="duplicateImportCount"></strong> 個編號已存在。請選擇處理方式。</p><div id="duplicateImportCodes" class="duplicate-code-list" aria-label="已存在的編號"></div><p class="duplicate-import-note">「覆寫重複資料」會更新相同編號的表格欄位，新編號照常新增。已手動上傳的圖片會保留；自動配對圖片會依匯入檔名重新配對。</p><div class="dialog-actions"><button id="cancelDuplicateImport" type="button">取消匯入</button><button id="addDuplicateImport" type="button">全部新增</button><button id="overwriteDuplicateImport" class="primary" type="button">覆寫重複資料</button></div></div></dialog><dialog id="imageChoiceDialog" class="confirm-dialog image-choice-dialog" aria-labelledby="imageChoiceTitle" aria-describedby="imageChoiceDescription"><div class="confirm-dialog-inner"><div class="confirm-dialog-icon image-choice-icon" aria-hidden="true">▧</div><h2 id="imageChoiceTitle">同一編號找到多張圖片</h2><p id="imageChoiceDescription">請為下列專題各選一張圖片。配對依檔名主體，不會只因副檔名不同而忽略圖片。</p><div id="imageChoiceList" class="image-choice-list"></div><div class="dialog-actions"><button id="cancelImageChoices" type="button">略過這些選擇</button><button id="applyImageChoices" class="primary" type="button">套用選擇</button></div></div></dialog><div id="message" class="hidden" role="status" aria-live="polite"></div>
+</dialog><dialog id="clearAllDialog" class="confirm-dialog" aria-labelledby="clearAllTitle" aria-describedby="clearAllDescription"><div class="confirm-dialog-inner"><div class="confirm-dialog-icon" aria-hidden="true">!</div><h2 id="clearAllTitle">確定要刪除全部資料？</h2><p id="clearAllDescription">此操作會清除這個瀏覽器儲存的所有專題資料與已匯入圖片，並移除刪除復原紀錄。完成後無法復原。</p><div id="clearAllCount" class="delete-count"></div><div class="dialog-actions"><button id="cancelClearAll" type="button">取消</button><button id="confirmClearAll" class="danger" type="button">刪除全部資料</button></div></div></dialog><dialog id="duplicateImportDialog" class="confirm-dialog import-duplicate-dialog" aria-labelledby="duplicateImportTitle" aria-describedby="duplicateImportDescription"><div class="confirm-dialog-inner"><div class="confirm-dialog-icon import-duplicate-icon" aria-hidden="true">↻</div><h2 id="duplicateImportTitle">匯入資料含有重複編號</h2><p id="duplicateImportDescription">這批資料中有 <strong id="duplicateImportCount"></strong> 個編號已存在。請選擇處理方式。</p><div id="duplicateImportCodes" class="duplicate-code-list" aria-label="已存在的編號"></div><p class="duplicate-import-note">「覆寫重複資料」會更新相同編號的表格欄位，新編號照常新增。已手動上傳的圖片會保留；自動配對圖片會依匯入檔名重新配對。</p><div class="dialog-actions"><button id="cancelDuplicateImport" type="button">取消匯入</button><button id="addDuplicateImport" type="button">全部新增</button><button id="overwriteDuplicateImport" class="primary" type="button">覆寫重複資料</button></div></div></dialog><dialog id="imageChoiceDialog" class="confirm-dialog image-choice-dialog" aria-labelledby="imageChoiceTitle" aria-describedby="imageChoiceDescription"><div class="confirm-dialog-inner"><div class="confirm-dialog-icon image-choice-icon" aria-hidden="true">▧</div><h2 id="imageChoiceTitle">同一編號找到多張圖片</h2><p id="imageChoiceDescription">請為下列專題各選一張圖片。配對依檔名主體，不會只因副檔名不同而忽略圖片。</p><div id="imageChoiceList" class="image-choice-list"></div><div class="dialog-actions"><button id="cancelImageChoices" type="button">略過這些選擇</button><button id="applyImageChoices" class="primary" type="button">套用選擇</button></div></div></dialog><aside id="studioTour" class="studio-tour hidden" aria-label="操作導覽">
+  <div class="studio-tour-head"><strong id="studioTourStep"></strong><button id="stopStudioTour" type="button">結束導覽</button></div>
+  <p id="studioTourHint" role="status"></p>
+</aside><div id="message" class="hidden" role="status" aria-live="polite"></div>
 <script src="./poster-renderer.js"></script>
 <script>
 
@@ -410,6 +423,7 @@ async function selectTemplate(id) {
   const request = ++templateRequest;
   if (id === selectedTemplateId) {
     templateDialog.close();
+    advanceStudioTour('template');
     return;
   }
   templateStatus.textContent = '正在載入模板…';
@@ -422,6 +436,7 @@ async function selectTemplate(id) {
     draw();
     scheduleSave();
     templateDialog.close();
+    advanceStudioTour('template');
   } catch (error) {
     if (request === templateRequest && templateDialog.open) templateStatus.textContent = error.message;
   }
@@ -579,6 +594,7 @@ $('poster').onchange = async event => {
     sync();
     scheduleSave();
     toast('已加入海報圖片');
+    advanceStudioTour('poster');
   } catch (error) {
     toast(error.message);
   }
@@ -593,7 +609,7 @@ function imageCandidateSignature(item){return `${String(item.name||'').normalize
 function addImageCandidate(item){const signature=imageCandidateSignature(item);for(const [key,existing] of imagePool)if(imageCandidateSignature(existing)===signature){imagePool.set(key,item);return}imagePool.set(`candidate-${++imagePoolSequence}`,item)}
 function imageOptionLabel(item){const meta=[item.width&&item.height?`${item.width} × ${item.height}px`:'',item.type||item.blob?.type||'格式由瀏覽器判讀',item.blob?.size?`${(item.blob.size/1024).toFixed(1)} KB`:'' ].filter(Boolean);return `${item.name}（${meta.join(' · ')}）`}
 function showImageChoices(choices){pendingImageChoices=choices;$('imageChoiceList').innerHTML=choices.map((item,index)=>`<div class="image-choice-group"><strong>${escapeHTML(item.record.code||'未填編號')} — ${escapeHTML(item.record.name||'未命名專題')}</strong><p>找到 ${item.candidates.length} 張同名圖片，請選擇其一。</p><div class="image-choice-options">${item.candidates.map((candidate,candidateIndex)=>`<label class="image-choice-option"><input type="radio" name="imageChoice${index}" value="${candidateIndex}"><span>${escapeHTML(imageOptionLabel(candidate))}</span></label>`).join('')}</div></div>`).join('');$('imageChoiceDialog').showModal();$('imageChoiceList').querySelector('input[type="radio"]')?.focus()}
-function resolveImageChoices(apply){const choices=pendingImageChoices;if(!choices)return;if(apply){const selected=choices.map((_,index)=>$('imageChoiceList').querySelector(`input[name="imageChoice${index}"]:checked`)),missingIndex=selected.findIndex(item=>!item);if(missingIndex>=0){$('imageChoiceList').querySelector(`input[name="imageChoice${missingIndex}"]`)?.focus();toast('請為每個專題選擇一張圖片');return}for(let i=0;i<choices.length;i++){const candidate=choices[i].candidates[Number(selected[i].value)];Object.assign(choices[i].record,{image:candidate.image,imageBlob:candidate.blob,imageLabel:candidate.name,imageSource:'matched'})}}pendingImageChoices=null;$('imageChoiceDialog').close();if(apply){sync();scheduleSave();toast(`已為 ${choices.length} 筆專題選擇圖片`)}else toast('已略過多張圖片的選擇；其他唯一配對已套用')}
+function resolveImageChoices(apply){const choices=pendingImageChoices;if(!choices)return;if(apply){const selected=choices.map((_,index)=>$('imageChoiceList').querySelector(`input[name="imageChoice${index}"]:checked`)),missingIndex=selected.findIndex(item=>!item);if(missingIndex>=0){$('imageChoiceList').querySelector(`input[name="imageChoice${missingIndex}"]`)?.focus();toast('請為每個專題選擇一張圖片');return}for(let i=0;i<choices.length;i++){const candidate=choices[i].candidates[Number(selected[i].value)];Object.assign(choices[i].record,{image:candidate.image,imageBlob:candidate.blob,imageLabel:candidate.name,imageSource:'matched'})}}pendingImageChoices=null;$('imageChoiceDialog').close();if(apply){sync();scheduleSave();toast(`已為 ${choices.length} 筆專題選擇圖片`);advanceStudioTour('images')}else toast('已略過多張圖片的選擇；其他唯一配對已套用')}
 $('cancelImageChoices').onclick=()=>resolveImageChoices(false);
 $('applyImageChoices').onclick=()=>resolveImageChoices(true);
 $('imageChoiceDialog').addEventListener('close',()=>{pendingImageChoices=null});
@@ -621,7 +637,8 @@ function applyImport(imported,mode){
   records.push(...additions);
   selected=firstUpdated?.index??(additions.length?firstAddedIndex:Math.max(0,Math.min(selected,records.length-1)));
   matchImages();sync();scheduleSave();
-  if(mode==='overwrite'&&updates.length){const updated=updates.reduce((n,item)=>n+item.targets.length,0);toast(`已匯入 ${imported.length} 筆：覆寫 ${updated} 筆、新增 ${additions.length} 筆`)}else toast(`已匯入 ${imported.length} 筆資料`)
+  if(mode==='overwrite'&&updates.length){const updated=updates.reduce((n,item)=>n+item.targets.length,0);toast(`已匯入 ${imported.length} 筆：覆寫 ${updated} 筆、新增 ${additions.length} 筆`)}else toast(`已匯入 ${imported.length} 筆資料`);
+  advanceStudioTour('import');
 }
 function resolveImport(mode){const imported=pendingImport;pendingImport=null;$('duplicateImportDialog').close();if(!imported)return;try{applyImport(imported,mode)}catch(err){toast(err.message||'匯入失敗')}}
 $('cancelDuplicateImport').onclick=()=>{$('duplicateImportDialog').close()};
@@ -639,7 +656,7 @@ $('importPaste').onclick=()=>{
   });
 };
 function matchImages(){let matched=0;const ambiguous=[];for(const r of records){if(r.imageSource==='manual')continue;const key=imageStem(r.filename||r.code);if(!key)continue;const candidates=[...imagePool.values()].filter(item=>imageStem(item.name)===key);if(candidates.length===1){const hit=candidates[0];Object.assign(r,{image:hit.image,imageBlob:hit.blob,imageLabel:hit.name,imageSource:'matched'});matched++}else if(candidates.length>1)ambiguous.push({record:r,candidates})}if(ambiguous.length)showImageChoices(ambiguous);return {matched,ambiguous:ambiguous.length}}
-$('images').onchange=async e=>{const files=[...e.target.files];e.target.value='';if(!files.length||!stateReady)return;return runFileOperation(e.target,`正在讀取圖片 0 / ${files.length}`,async setLabel=>{try{const loaded=[],errors=[];for(const [index,f] of files.entries()){setLabel(`正在讀取圖片 ${index+1} / ${files.length}`);try{const item=await loadFile(f);addImageCandidate(item);loaded.push(item)}catch{errors.push({name:f.name,reason:'瀏覽器無法解碼，或無法安全用於海報輸出'})}}setLabel('正在配對海報圖片…');await afterActionPaint();renderBatchImageResults(loaded,errors);const result=matchImages();sync();scheduleSave();if(loaded.length||result.matched)toast(`成功解碼 ${loaded.length} 張圖片；自動配對 ${result.matched} 筆${result.ambiguous?`，另有 ${result.ambiguous} 筆請選擇圖片`:''}`);else if(errors.length)toast(`沒有圖片能解碼；${errors.length} 個檔名已列於批次匯入區`);}catch(error){toast(error.message||'批次讀取圖片失敗')}})};
+$('images').onchange=async e=>{const files=[...e.target.files];e.target.value='';if(!files.length||!stateReady)return;return runFileOperation(e.target,`正在讀取圖片 0 / ${files.length}`,async setLabel=>{try{const loaded=[],errors=[];for(const [index,f] of files.entries()){setLabel(`正在讀取圖片 ${index+1} / ${files.length}`);try{const item=await loadFile(f);addImageCandidate(item);loaded.push(item)}catch{errors.push({name:f.name,reason:'瀏覽器無法解碼，或無法安全用於海報輸出'})}}setLabel('正在配對海報圖片…');await afterActionPaint();renderBatchImageResults(loaded,errors);const result=matchImages();sync();scheduleSave();if(result.matched&&!result.ambiguous)advanceStudioTour('images');if(loaded.length||result.matched)toast(`成功解碼 ${loaded.length} 張圖片；自動配對 ${result.matched} 筆${result.ambiguous?`，另有 ${result.ambiguous} 筆請選擇圖片`:''}`);else if(errors.length)toast(`沒有圖片能解碼；${errors.length} 個檔名已列於批次匯入區`);}catch(error){toast(error.message||'批次讀取圖片失敗')}})};
 for(const label of document.querySelectorAll('label.upload[for]')){label.tabIndex=0;label.setAttribute('role','button');label.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$(label.htmlFor)?.click()}})}
 function download(blob,name){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),20000)}
 $('sample').onclick=()=>download(new Blob(['\uFEFF編號,名稱,班級,海報檔名\r\n'],{type:'text/csv;charset=utf-8'}),'海報匯入範本.csv');
@@ -653,6 +670,7 @@ $('exportOne').onclick=()=>{
       validate(record);
       download(await png(record), safe(record.code+'_'+record.name)+'.png');
       toast('海報已開始下載');
+      advanceStudioTour('download');
     } catch (error) { toast(error.message); }
   });
 };
@@ -672,7 +690,7 @@ function showExportIssues(issues,exportedCount,fatalMessage=''){
   list.classList.toggle('hidden',!issues.length);empty.classList.toggle('hidden',!!issues.length);empty.textContent=fatalMessage&&!issues.length?'沒有單筆資料錯誤；請稍後重試，或檢查瀏覽器可用記憶體。':'目前沒有錯誤項目。';
   dialog.showModal();$('closeExportIssues').focus()
 }
-$('exportAll').onclick=()=>runOperation($('exportAll'),'正在準備海報…',async setLabel=>{try{if(!records.length)throw Error('清單目前沒有資料');const exportRecords=records.map((r,index)=>({r,index}));const files=[],issues=[];for(let i=0;i<exportRecords.length;i++){const {r,index}=exportRecords[i];setLabel(`正在產生海報 ${i+1} / ${exportRecords.length}`);try{validate(r);const blob=await png(r);files.push({name:`${exportDomainFolder(r.code)}/${String(files.length+1).padStart(3,'0')}_${safe(r.code+'_'+r.name)}.png`,blob})}catch(err){issues.push({label:`第 ${index+1} 筆｜${r.code||'未填編號'} — ${r.name||'未命名專題'}`,reason:err.message||'海報產生失敗'})}await new Promise(requestAnimationFrame)}if(!files.length){showExportIssues(issues,0);return}try{setLabel('正在打包 ZIP…');await afterActionPaint();download(await zip(files),'成果展海報.zip');if(issues.length)showExportIssues(issues,files.length);else toast(`已打包 ${files.length} 張海報`)}catch(err){showExportIssues(issues,0,err.message||'打包時發生未知錯誤')}}catch(err){toast(err.message)}});
+$('exportAll').onclick=()=>runOperation($('exportAll'),'正在準備海報…',async setLabel=>{try{if(!records.length)throw Error('清單目前沒有資料');const exportRecords=records.map((r,index)=>({r,index}));const files=[],issues=[];for(let i=0;i<exportRecords.length;i++){const {r,index}=exportRecords[i];setLabel(`正在產生海報 ${i+1} / ${exportRecords.length}`);try{validate(r);const blob=await png(r);files.push({name:`${exportDomainFolder(r.code)}/${String(files.length+1).padStart(3,'0')}_${safe(r.code+'_'+r.name)}.png`,blob})}catch(err){issues.push({label:`第 ${index+1} 筆｜${r.code||'未填編號'} — ${r.name||'未命名專題'}`,reason:err.message||'海報產生失敗'})}await new Promise(requestAnimationFrame)}if(!files.length){showExportIssues(issues,0);return}try{setLabel('正在打包 ZIP…');await afterActionPaint();download(await zip(files),'成果展海報.zip');if(issues.length)showExportIssues(issues,files.length);else{toast(`已打包 ${files.length} 張海報`);advanceStudioTour('download')}}catch(err){showExportIssues(issues,0,err.message||'打包時發生未知錯誤')}}catch(err){toast(err.message)}});
 function openDB(){if(!dbPromise)dbPromise=new Promise((resolve,reject)=>{if(!('indexedDB'in window))return reject(Error('此瀏覽器不支援本機儲存'));const request=indexedDB.open(DB_NAME,DB_VERSION);request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('state'))request.result.createObjectStore('state')};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error||Error('無法開啟本機儲存'))});return dbPromise}
 function serialRecord(r){const {image,...data}=r;return {...data,imageBlob:r.imageBlob||null}}
 function readState(db){return new Promise((resolve,reject)=>{const req=db.transaction('state','readonly').objectStore('state').get('app');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||Error('無法讀取本機資料'))})}
@@ -702,12 +720,79 @@ async function initializeStudio() {
   updateTemplateUI();
   $('openTemplates').disabled = false;
 }
+
+const studioTourMode = new URLSearchParams(location.search).get('tour');
+let studioTourSteps = [];
+let studioTourIndex = -1;
+let studioTourTarget;
+const templateTourStep = ['template','#openTemplates','按「選擇模板」，再點一張縮圖確認版面。'];
+
+function showStudioTourStep() {
+  studioTourTarget?.classList.remove('tour-target');
+  const step = studioTourSteps[studioTourIndex];
+  $('studioTourStep').textContent = step ? '第 ' + (studioTourIndex + 1) + ' 步／共 ' + studioTourSteps.length + ' 步' : '導覽完成';
+  $('studioTourHint').textContent = step ? step[2] : '檔案已開始下載，通常可在「下載」資料夾找到。';
+  studioTourTarget = step ? document.querySelector(step[1]) : null;
+  studioTourTarget?.classList.add('tour-target');
+  studioTourTarget?.scrollIntoView({block:'center',inline:'nearest'});
+}
+
+function advanceStudioTour(action) {
+  if (studioTourSteps[studioTourIndex]?.[0] !== action) return;
+  studioTourIndex++;
+  showStudioTourStep();
+}
+
+function startStudioTour() {
+  if (studioTourMode !== 'single' && studioTourMode !== 'batch') return;
+  if (studioTourMode === 'single') {
+    setTab(false);
+    studioTourSteps = [
+      ...(records.length ? [['add','#add','按「新增一筆」，建立一組新的專題。']] : []),
+      ['code','#code','點框起來的欄位，輸入專題編號，例如 A01。'],
+      ['className','#className','輸入班級，例如資管四甲。'],
+      ['name','#name','輸入專題名稱，填完後點欄位外面或按 Tab。'],
+      ['poster','label[for="poster"]','按「選擇海報圖片」，從電腦選一張海報，然後按「開啟」。'],
+      templateTourStep,
+      ['download','#exportOne','確認預覽後，按「下載這張 PNG」。']
+    ];
+    $('add').addEventListener('click', () => advanceStudioTour('add'));
+    for (const id of ['code','className','name']) {
+      $(id).addEventListener('change', () => {
+        if ($(id).value.trim()) advanceStudioTour(id);
+      });
+    }
+  } else {
+    setTab(true);
+    studioTourSteps = [
+      ['import','label[for="spreadsheet"]','按「匯入 Excel 或 CSV 資料表」，選擇已填好編號、班級和名稱的檔案。'],
+      ['images','label[for="images"]','按「批次選擇海報圖片」。圖片檔名使用專題編號，例如 A01.png。如果出現候選圖片，請先選擇並套用。'],
+      templateTourStep,
+      ['download','#exportAll','按「下載全部 ZIP」。如果有未匯出的專題，可依提示補齊後重試。']
+    ];
+  }
+  studioTourIndex = 0;
+  $('studioTour').classList.remove('hidden');
+  document.body.classList.add('tour-in-progress');
+  $('stopStudioTour').addEventListener('click', () => {
+    studioTourTarget?.classList.remove('tour-target');
+    studioTourIndex = -1;
+    $('studioTour').classList.add('hidden');
+    document.body.classList.remove('tour-in-progress');
+    const url = new URL(location.href);
+    url.searchParams.delete('tour');
+    history.replaceState(null, '', url);
+  });
+  showStudioTourStep();
+}
+
 initializeStudio().catch(error => {
   toast(error.message || '無法完成載入，請重新整理頁面');
 }).finally(() => {
   $('studioLoading').remove();
   $('studioContent').classList.remove('hidden');
   $('studioContent').setAttribute('aria-busy', 'false');
+  if (stateReady) startStudioTour();
 });
 
 $('openGallery').addEventListener('click',async event=>{if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();if(!stateReady){toast('資料仍在載入，請稍後再開啟圖片相簿');return}const link=event.currentTarget;link.setAttribute('aria-busy','true');clearTimeout(saveTimer);try{await persist();location.href=link.href}catch{link.removeAttribute('aria-busy');toast('本機資料尚未成功儲存，因此沒有切換頁面；請稍後再試')}});
