@@ -33,8 +33,10 @@
 @media(prefers-reduced-motion:reduce){.skeleton-block::after{animation:none;transform:none;opacity:.3}}
 </style>
 <link rel="stylesheet" href="./site-header.css">
+<link rel="stylesheet" href="./site-footer.css">
+<link rel="stylesheet" href="./mobile-layout.css">
 </head>
-<body>
+<body class="gallery-page">
 <header class="studio-header">
   <div class="exhibition-brand">
     <img class="brand-icon" src="./favicon.png" alt="">
@@ -61,8 +63,12 @@
     <div class="card skeleton-card" aria-hidden="true"><span class="frame skeleton-block skeleton-frame"><span class="skeleton-block skeleton-badge"></span></span><span class="info"><span class="skeleton-block skeleton-line skeleton-title"></span><span class="skeleton-block skeleton-line skeleton-detail"></span></span></div>
     <div class="card skeleton-card" aria-hidden="true"><span class="frame skeleton-block skeleton-frame"><span class="skeleton-block skeleton-badge"></span></span><span class="info"><span class="skeleton-block skeleton-line skeleton-title"></span><span class="skeleton-block skeleton-line skeleton-detail"></span></span></div>
   </section>
-  <footer>圖片及專題資料只在此瀏覽器本機讀取與儲存，不會上傳。<br>海報製作室 · 國立臺中科技大學 資訊與流通學院</footer>
-</main>
+  </main>
+<footer class="site-footer">
+  <strong class="site-footer-title">國立臺中科技大學</strong>
+  <span class="site-footer-english" lang="en">National Taichung University of Science and Technology</span>
+  <small class="site-footer-copyright">© 2026 國立臺中科技大學 資訊與流通學院專題成果展</small>
+</footer>
 <dialog id="slideshow" class="slideshow" aria-labelledby="slideTitle"><div class="slide-shell"><div class="slide-head"><div><p id="slideDetail">圖片相簿</p><h2 id="slideTitle">幻燈片播放</h2></div><button id="closeShow" class="slide-close" type="button">關閉</button></div><div class="slide-stage"><button id="prevSlide" class="slide-arrow" type="button" aria-label="上一張">‹</button><div id="slideMedia" class="slide-media"></div><button id="nextSlide" class="slide-arrow" type="button" aria-label="下一張">›</button></div><div class="slide-controls"><button id="togglePlay" type="button">Ⅱ 暫停播放</button><span id="slideCounter" class="slide-counter" aria-live="polite"></span><span class="slide-counter">點圖片或用鍵盤 ← → 切換</span></div></div></dialog>
 <script src="./poster-renderer.js"></script>
 <script>
