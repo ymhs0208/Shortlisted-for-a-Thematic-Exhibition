@@ -28,7 +28,7 @@ main{max-width:1100px;margin:auto;padding:42px 24px 70px}.hero{padding:10px 0 28
     <span class="eyebrow">快速上手指南</span>
     <h1>把資料整理好，海報就完成一大半。</h1>
     <p class="intro">新增專題資料、放入海報圖片，再從即時預覽確認版面。少量資料可逐筆編輯；大量資料可直接匯入 Excel（.xlsx）、CSV／TSV，再批次加入海報圖片。</p>
-    <div class="facts"><span class="fact"><strong>1920 × 1080</strong> PNG 輸出</span><span class="fact">JPG・PNG・WebP 圖片</span><span class="fact">最多管理 500 筆</span><span class="fact">資料留在目前瀏覽器</span></div>
+    <div class="facts"><span class="fact"><strong>1920 × 1080</strong> PNG 輸出</span><span class="fact">單筆 JPG・PNG・WebP；批次不看副檔名</span><span class="fact">最多管理 500 筆</span><span class="fact">資料留在目前瀏覽器</span></div>
   </section>
 
   <section class="section">
@@ -62,8 +62,8 @@ main{max-width:1100px;margin:auto;padding:42px 24px 70px}.hero{padding:10px 0 28
       <article class="card">
         <h3>再一次選取多張海報圖片</h3>
         <ul>
-          <li>在「批次匯入」頁面選「批次選擇海報圖片」，可一次選取 JPG、PNG 或 WebP。</li>
-          <li>有填「海報檔名」時，圖片名稱需與欄位相符；未填檔名時，系統改用編號配對。例如編號 <span class="mono">A01</span> 對應 <span class="mono">A01.jpg</span>。</li>
+          <li>在「批次匯入」頁面選「批次選擇海報圖片」，可選取瀏覽器能解碼並安全輸出的圖片；不以副檔名限制。</li>
+          <li>依「海報檔名」或編號的檔名主體配對，不比較副檔名。例如欄位填 <span class="mono">A01.jpg</span> 時，<span class="mono">A01.png</span> 也會列為候選。若同一編號找到多張圖片，請在彈窗選擇；無法解碼或無法安全輸出的檔案會列出檔名。</li>
           <li>回到製作清單檢查圖片狀態；「缺少圖片」代表還沒配對成功，可在單筆編輯中直接上傳。</li>
         </ul>
         <div class="note green">批次匯入資料與批次選圖可分兩次操作。已在單筆編輯中人工上傳的圖片，不會被批次配對覆蓋。</div>
