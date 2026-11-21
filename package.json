@@ -1,0 +1,9 @@
+{
+  "name": "thematic-exhibition-poster-studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "embed-templates": "node scripts/embed-local-templates.mjs"
+  }
+}

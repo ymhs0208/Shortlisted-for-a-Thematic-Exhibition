@@ -1,0 +1,18 @@
+/* Shared exhibition palette. Guide overrides the few tokens that differ. */
+:root {
+  --blue: #176fba;
+  --ink: #17364d;
+  --muted: #728391;
+  --line: #e0e9ef;
+  --bg: #f4f8fb;
+  --teal: #176fba;
+  --teal-dark: #10588f;
+  --soft: #edf5fb;
+  --accent-green: #0cae70;
+  --accent-gold: #f5b323;
+  --accent-pink: #e97aaa;
+  --green: #0cae70;
+  --gold: #f5b323;
+  --pink: #e97aaa;
+  --shadow: 0 14px 38px rgba(25, 62, 87, .075), 0 2px 7px rgba(25, 62, 87, .035);
+}
