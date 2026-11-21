@@ -3,6 +3,50 @@
 
   const WIDTH = 1920;
   const HEIGHT = 1080;
+  const templates = [
+    {id:'original',name:'原始模板',src:'./assets/nutc-exhibition-template.png',poster:[1224,73,660,934],fields:[['code',450,585,720,112],['className',450,760,720,112],['name',450,933,720,112]]},
+    {id:'warm',name:'暖米色電路模板',src:'./assets/nutc-exhibition-warm.png',poster:[1152,119,631,844],fields:[['code',100,423,456,138,88],['className',625,423,459,138,88],['name',100,762,980,285,108]]},
+    {id:'minimal',name:'簡約學院模板',src:'./assets/nutc-exhibition-minimal.jpg',poster:[1166,60,677,960],fields:[['code',102,675,320,100],['className',465,675,505,100],['name',102,900,870,150]]}
+  ];
+  function getPosterTemplate(id){return templates.find(item=>item.id===id)||templates[0]}
+  let localImagesPromise;
+  async function loadPosterTemplate(id) {
+    const config = getPosterTemplate(id);
+    let src = config.src;
+    if (location.protocol === 'file:') {
+      // Chromium taints canvases drawn from separate file URLs.
+      localImagesPromise ??= new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = './assets/local-template-images.js';
+        script.onload = resolve;
+        script.onerror = () => {
+          localImagesPromise = undefined;
+          script.remove();
+          reject(Error('無法讀取本機模板資源'));
+        };
+        document.head.append(script);
+      });
+      await localImagesPromise;
+      src = root.localPosterTemplateImages?.[src];
+      if (!src) throw Error('找不到本機模板圖片');
+    }
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.exhibitionTemplateId = config.id;
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(Error('模板載入失敗'));
+      image.src = src;
+    });
+  }
+
+  function createDemoPosterUrl(template) {
+    const [x, y, width, height] = getPosterTemplate('original').poster;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    canvas.getContext('2d').drawImage(template, x, y, width, height, 0, 0, width, height);
+    return canvas.toDataURL('image/png');
+  }
 
   function wrapText(ctx, text, maxWidth) {
     const lines = [''];
@@ -17,13 +61,13 @@
     return lines;
   }
 
-  function drawText(ctx, text, y) {
-    let size = 72;
+  function drawText(ctx, text, x, y, maxWidth, maxHeight, maxSize = 72) {
+    let size = maxSize;
     let lines;
     do {
       ctx.font = `700 ${size}px "PingFang TC","Microsoft JhengHei",sans-serif`;
-      lines = wrapText(ctx, text || '', 720);
-      if (lines.length * size * 1.12 <= 112) break;
+      lines = wrapText(ctx, text || '', maxWidth);
+      if (lines.length * size * 1.12 <= maxHeight) break;
       size -= 2;
     } while (size >= 16);
 
@@ -31,7 +75,7 @@
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
     lines.forEach((line, index) => {
-      ctx.fillText(line, 450, y + (index - (lines.length - 1) / 2) * size * 1.12);
+      ctx.fillText(line, x, y + (index - (lines.length - 1) / 2) * size * 1.12, maxWidth);
     });
   }
 
@@ -48,14 +92,12 @@
     }
 
     const values = record || {};
-    for (const [key, y] of [['code', 585], ['className', 760], ['name', 933]]) {
-      drawText(ctx, values[key], y);
+    const layout=getPosterTemplate(template && template.exhibitionTemplateId);
+    for (const [key, x, y, width, height, maxSize] of layout.fields) {
+      drawText(ctx, values[key], x, y, width, height, maxSize);
     }
 
-    const x = 1224;
-    const y = 73;
-    const width = 660;
-    const height = 934;
+    const [x,y,width,height] = layout.poster;
     ctx.fillStyle = '#fff';
     ctx.fillRect(x, y, width, height);
 
@@ -88,4 +130,8 @@
   }
 
   root.renderPosterCanvas = renderPosterCanvas;
+  root.posterTemplates = templates;
+  root.getPosterTemplate = getPosterTemplate;
+  root.loadPosterTemplate = loadPosterTemplate;
+  root.createDemoPosterUrl = createDemoPosterUrl;
 })(globalThis);

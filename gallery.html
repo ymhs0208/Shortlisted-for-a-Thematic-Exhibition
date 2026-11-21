@@ -58,11 +58,19 @@
 const DB_NAME='thematic-exhibition-poster-studio',DB_VERSION=1;
 const $=id=>document.getElementById(id);
 const safeText=value=>String(value??'');
+let selectedTemplateId='original';
 let records=[],objectUrls=[],demoPreviewUrl='',templateImage=null,visibleItems=[],slideIndex=0,slideTimer=null,slideObjectUrl='',viewMode='source',posterCache=new WeakMap(),posterObserver=null,slideRenderToken=0,galleryLoading=true;
 function clearObjectUrls(){for(const url of objectUrls)URL.revokeObjectURL(url);objectUrls=[]}
 function openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB'in window))return reject(Error('這個瀏覽器不支援本機儲存。'));const request=indexedDB.open(DB_NAME,DB_VERSION);request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('state'))request.result.createObjectStore('state')};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error||Error('無法開啟本機資料。'))})}
-async function readRecords(){const db=await openDB();try{return await new Promise((resolve,reject)=>{const tx=db.transaction('state','readonly'),request=tx.objectStore('state').get('app');request.onsuccess=()=>resolve(request.result?.records||[]);request.onerror=()=>reject(request.error||Error('無法讀取本機資料。'))})}finally{db.close()}}
-function loadDemoPreview(){return new Promise(resolve=>{const template=new Image();template.onload=()=>{try{templateImage=template;const canvas=document.createElement('canvas');canvas.width=660;canvas.height=934;canvas.getContext('2d').drawImage(template,1224,73,660,934,0,0,660,934);demoPreviewUrl=canvas.toDataURL('image/png');resolve(true)}catch{resolve(false)}};template.onerror=()=>resolve(false);template.src='./assets/nutc-exhibition-template.png'})}
+async function readRecords(){const db=await openDB();try{return await new Promise((resolve,reject)=>{const tx=db.transaction('state','readonly'),request=tx.objectStore('state').get('app');request.onsuccess=()=>{selectedTemplateId=getPosterTemplate(request.result?.templateId).id;resolve(request.result?.records||[])};request.onerror=()=>reject(request.error||Error('無法讀取本機資料。'))})}finally{db.close()}}
+async function loadDemoPreview() {
+  try {
+    templateImage = await loadPosterTemplate('original');
+    demoPreviewUrl = createDemoPosterUrl(templateImage);
+  } catch {
+    demoPreviewUrl = '';
+  }
+}
 function loadBlobImage(blob){return new Promise((resolve,reject)=>{const url=URL.createObjectURL(blob),img=new Image();img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};img.onerror=()=>{URL.revokeObjectURL(url);reject(Error('圖片無法讀取'))};img.src=url})}
 function loadUrlImage(url){return new Promise((resolve,reject)=>{if(!url)return reject(Error('圖片不存在'));const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(Error('圖片無法讀取'));img.src=url})}
 function posterPreview(record){if(posterCache.has(record))return posterCache.get(record);const work=(async()=>{if(!templateImage)return {url:'',broken:false};let image=null,broken=false;try{if(record.imageSource==='demo'&&demoPreviewUrl)image=await loadUrlImage(demoPreviewUrl);else if(record.imageBlob)image=await loadBlobImage(record.imageBlob)}catch{broken=!!record.imageBlob}const canvas=document.createElement('canvas');canvas.width=960;canvas.height=540;renderPosterCanvas(canvas,record,templateImage,image);return {url:canvas.toDataURL('image/png'),broken}})();posterCache.set(record,work);return work}
@@ -87,7 +95,7 @@ function openSlideshow(){if(!visibleItems.length)return;slideIndex=0;paintSlide(
 function closeSlideshow(){stopAuto();$('slideshow').close();if(slideObjectUrl){URL.revokeObjectURL(slideObjectUrl);slideObjectUrl=''}}
 $('startShow').addEventListener('click',openSlideshow);$('closeShow').addEventListener('click',closeSlideshow);$('prevSlide').addEventListener('click',()=>moveSlide(-1));$('nextSlide').addEventListener('click',()=>moveSlide(1));$('togglePlay').addEventListener('click',()=>slideTimer?stopAuto():startAuto());$('slideshow').addEventListener('click',e=>{if(e.target===$('slideshow'))closeSlideshow()});$('slideshow').addEventListener('close',()=>{stopAuto();if(slideObjectUrl){URL.revokeObjectURL(slideObjectUrl);slideObjectUrl=''}});document.addEventListener('keydown',e=>{if(!$('slideshow').open)return;if(e.key==='ArrowLeft'){e.preventDefault();moveSlide(-1)}else if(e.key==='ArrowRight'){e.preventDefault();moveSlide(1)}else if(e.code==='Space'){e.preventDefault();slideTimer?stopAuto():startAuto()}});
 $('search').addEventListener('input',render);
-(async()=>{try{await loadDemoPreview();records=await readRecords();galleryLoading=false;render()}catch(error){galleryLoading=false;$('grid').setAttribute('aria-busy','false');$('grid').replaceChildren();$('count').textContent='無法讀取';$('loadError').textContent=`讀取本機資料時發生問題：${error.message||'請回到海報製作室重新開啟圖片相簿。'}`;$('loadError').classList.remove('hidden');const empty=document.createElement('div');empty.className='empty';empty.textContent='目前無法顯示圖片。請確認已在同一個瀏覽器與網站開啟海報製作室。';$('grid').append(empty)}})();
+(async()=>{try{await loadDemoPreview();records=await readRecords();if(selectedTemplateId!=='original'||!templateImage)templateImage=await loadPosterTemplate(selectedTemplateId);galleryLoading=false;render()}catch(error){galleryLoading=false;$('grid').setAttribute('aria-busy','false');$('grid').replaceChildren();$('count').textContent='無法讀取';$('loadError').textContent=`讀取本機資料時發生問題：${error.message||'請回到海報製作室重新開啟圖片相簿。'}`;$('loadError').classList.remove('hidden');const empty=document.createElement('div');empty.className='empty';empty.textContent='目前無法顯示圖片。請確認已在同一個瀏覽器與網站開啟海報製作室。';$('grid').append(empty)}})();
 </script>
 </body>
 </html>
