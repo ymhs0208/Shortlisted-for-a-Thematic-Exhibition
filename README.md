@@ -61,6 +61,7 @@ node scripts/embed-local-templates.mjs
 - `assets/`：六張海報模板圖。
 - `vendor/xlsx.full.min.js`：本機使用的 Excel 試算表解析程式。
 - `scripts/embed-local-templates.mjs`：產生 `file://` 用的模板嵌入檔。
+- `wrangler.jsonc`：把這個目錄當成靜態資源，部署到既有的 Workers 服務。
 - `系統使用說明書.pdf`：使用說明書。
 
 純函式測試不需要安裝套件：

@@ -7,3 +7,5 @@ template-v2-assets/sample-poster.jpg
 # Base64 copies of the template images, for file:// canvas export only.
 # Regenerate with: node scripts/embed-local-templates.mjs
 assets/local-template-images.js
+
+node_modules

@@ -1,9 +1,14 @@
 {
-  "name": "thematic-exhibition-poster-studio",
+  "name": "shortlisted-for-a-thematic-exhibition",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "embed-templates": "node scripts/embed-local-templates.mjs"
+    "embed-templates": "node scripts/embed-local-templates.mjs",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^4.166.0"
   }
 }
