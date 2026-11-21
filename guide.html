@@ -3,86 +3,81 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#176fba">
 <title>使用說明｜海報製作室</title>
-<link rel="icon" type="image/png" sizes="512x512" href="./favicon.png">
-<link rel="apple-touch-icon" href="./favicon.png">
+<link rel="icon" href="./favicon.png">
 <style>
-:root{--blue:#176fba;--ink:#17364d;--muted:#728391;--line:#e0e9ef;--bg:#f4f8fb;--green:#0cae70;--gold:#f5b323;--pink:#e97aaa;--shadow:0 14px 38px rgba(25,62,87,.075),0 2px 7px rgba(25,62,87,.035)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:radial-gradient(ellipse at 88% 0%,rgba(23,111,186,.09),transparent 34rem),linear-gradient(180deg,#f9fbfd 0%,#f3f7fa 68%,#f7f9fb 100%);font-family:Inter,-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei",sans-serif;letter-spacing:.005em}
-a{color:inherit}header{position:sticky;top:0;z-index:5;height:72px;padding:0 clamp(18px,3.5vw,56px);display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.9);backdrop-filter:blur(18px);background-image:linear-gradient(90deg,var(--green) 0 25%,var(--blue) 25% 50%,var(--gold) 50% 75%,var(--pink) 75% 100%);background-repeat:no-repeat;background-size:100% 3px;background-position:left bottom;border-bottom:1px solid #e2eaf0}
-.brand{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:750;letter-spacing:.015em;text-decoration:none}.brand img{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 3px 5px rgba(23,54,77,.1))}.brand small{font-size:13px;font-weight:500;color:#768994}.header-link{font-size:13px;font-weight:650;color:#1768a8;text-decoration:none;padding:9px 12px;border:1px solid #dce9f2;border-radius:9px}.header-link:hover{background:#eff7fc;border-color:#bfd8e8}
-main{max-width:1100px;margin:auto;padding:42px 24px 70px}.hero{padding:10px 0 28px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#287653;background:#eaf6ef;border:1px solid #d8eddf;border-radius:99px;padding:6px 11px;font-size:12px;font-weight:650;letter-spacing:.04em}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(12,174,112,.12)}h1{font-size:clamp(30px,4vw,44px);letter-spacing:-.04em;line-height:1.2;margin:17px 0 10px}h1:after{content:"";display:block;width:58px;height:3px;margin-top:14px;border-radius:99px;background:linear-gradient(90deg,var(--green) 0 25%,var(--blue) 25% 50%,var(--gold) 50% 75%,var(--pink) 75% 100%)}.intro{max-width:690px;font-size:16px;line-height:1.8;color:#687d8a;margin:0}.facts{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}.fact{padding:8px 11px;border:1px solid #e1eaf0;border-radius:9px;background:rgba(255,255,255,.75);font-size:12px;color:#536d7d}.fact strong{color:#1768a8}
-.section{margin-top:27px}.section-head{margin:0 0 14px;font-size:19px;letter-spacing:-.01em}.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:16px;padding:21px 22px;box-shadow:var(--shadow)}.step{display:flex;gap:13px;align-items:flex-start}.num{flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#edf5fb;color:#1768a8;font-weight:750;font-size:14px}.card h3{font-size:16px;margin:4px 0 7px}.card p,.card li{font-size:13px;line-height:1.8;color:#627987}.card p{margin:0}.card ul{padding-left:18px;margin:8px 0 0}.card li+li{margin-top:3px}.accent{font-weight:650;color:#1768a8}.warn{color:#986d29;font-weight:650}.details-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}.table th,.table td{text-align:left;padding:9px 10px;border-bottom:1px solid #edf1f3;vertical-align:top}.table th{color:#75868b;background:#f7fafb;font-weight:600}.table td{color:#5b7180}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#1768a8;background:#f0f6fb;border-radius:5px;padding:2px 5px;white-space:nowrap}.note{margin-top:12px;padding:12px 13px;background:#f0f7fb;border:1px solid #dfecf4;border-radius:10px;color:#587286;font-size:12px;line-height:1.75}.note.green{background:#edf7f1;border-color:#dfefe5;color:#50745f}.faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.faq .card{padding:18px 19px}.faq h3{font-size:14px}.faq p{font-size:12px}.cta{margin-top:24px;padding:22px 24px;border-radius:16px;color:white;background:linear-gradient(120deg,#176fba,#145c96);display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 12px 26px rgba(23,111,186,.18)}.cta h2{font-size:18px;margin:0 0 5px}.cta p{font-size:13px;color:rgba(255,255,255,.82);margin:0}.cta a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border-radius:9px;background:white;color:#1768a8;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap}.cta a:hover{background:#edf6fc}footer{text-align:center;margin-top:26px;font-size:12px;line-height:1.7;color:#87969a}
-@media(max-width:720px){header{height:64px;padding:0 15px}.brand{font-size:15px;gap:8px}.brand img{width:39px;height:39px}.brand small{display:none}.header-link{padding:8px 10px;font-size:12px}main{padding:27px 15px 45px}.hero{padding-top:3px}h1{font-size:31px}.intro{font-size:14px}.steps,.details-grid,.faq{grid-template-columns:1fr}.card{padding:18px}.section-head{font-size:18px}.table th,.table td{padding:8px 7px;font-size:11px}.cta{align-items:flex-start;flex-direction:column;padding:20px}.cta a{width:100%}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+:root{color-scheme:light;--ink:#163453;--blue:#175aa5;--muted:#4f6276;--line:#d9e4ef;--paper:#fff;--surface:#f2f6fa}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:17px/1.7 system-ui,"Microsoft JhengHei",sans-serif}
+a{color:var(--blue)} a:focus-visible{outline:3px solid #1866b6;outline-offset:4px}
+header{background:var(--paper);border-bottom:1px solid var(--line)}
+.header-inner,main{max-width:980px;margin:auto;padding-inline:24px}
+.header-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:16px;line-height:1.25}
+.brand img{width:40px;height:40px;object-fit:contain}
+.return,.route{display:inline-block;background:var(--blue);color:white;text-decoration:none;border-radius:9px;padding:9px 14px;font-weight:750}.return{font-size:14px;white-space:nowrap}
+main{padding-block:34px 48px}h1,h2,h3,p{margin:0}h1{font-size:clamp(28px,5vw,44px);line-height:1.2;letter-spacing:.01em}h2{font-size:clamp(22px,4vw,30px);line-height:1.3}h3{font-size:19px;line-height:1.4}
+.lead{color:var(--muted);margin-top:12px}.routes{display:flex;flex-wrap:wrap;gap:10px;margin-top:19px}.route.secondary{background:white;color:var(--blue);border:1px solid #aac6e3}
+section{margin-top:34px;scroll-margin-top:16px}.section-intro{color:var(--muted);margin:6px 0 13px}
+.steps{display:grid;gap:10px;list-style:none;padding:0;margin:0;counter-reset:step}
+.step{counter-increment:step;display:grid;grid-template-columns:42px minmax(0,1fr);gap:14px;padding:16px 19px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.step::before{content:counter(step);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#e9f2fc;color:#174f8c;font-weight:800}
+.step p{margin-top:5px;color:var(--muted)}.control{white-space:nowrap;color:#164e8d;font-weight:800}
+.note{margin-top:10px;padding:9px 12px;border-left:3px solid #98badc;background:#f1f7fd;color:#2b4a69;border-radius:0 6px 6px 0;font-size:15px}
+.table-wrap{margin-top:10px;overflow:auto}table{border-collapse:collapse;font-size:15px;text-align:left;min-width:310px}th,td{border:1px solid var(--line);padding:5px 10px}th{background:#edf4fc;white-space:nowrap}
+.help{margin-top:10px;display:grid;gap:8px}.help details{background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px}.help summary{cursor:pointer;font-weight:750}.help p{margin-top:7px;color:var(--muted)}
+.foot{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}.foot .return{margin-top:12px}
+@media(max-width:540px){.header-inner,main{padding-inline:15px}main{padding-top:25px}.step{grid-template-columns:32px minmax(0,1fr);gap:9px;padding:12px}.step::before{width:30px;height:30px}.brand img{width:34px;height:34px}}
 </style>
+<link rel="stylesheet" href="./site-header.css">
 </head>
 <body>
-<header>
-  <a class="brand" href="./index.html"><img src="./favicon.png" alt="">海報製作室 <small>／ 使用指南</small></a>
-  <a class="header-link" href="./index.html">回到製作室</a>
+<header class="studio-header">
+  <div class="exhibition-brand">
+    <img class="brand-icon" src="./favicon.png" alt="">
+    <div class="exhibition-brand-copy">
+    <div class="exhibition-affiliation"><span>國立臺中科技大學</span><span class="exhibition-college"><span aria-hidden="true">・</span>資訊與流通學院</span></div>
+    <div class="exhibition-title">專題成果展</div>
+    <div class="exhibition-subtitle">海報製作室</div>
+    </div>
+  </div>
+  <nav class="header-actions" aria-label="主要導覽"><a class="guide-link" href="./index.html">回到製作室</a></nav>
 </header>
 <main>
-  <section class="hero">
-    <span class="eyebrow">快速上手指南</span>
-    <h1>把資料整理好，海報就完成一大半。</h1>
-    <p class="intro">新增專題資料、放入海報圖片，再從即時預覽確認版面。少量資料可逐筆編輯；大量資料可直接匯入 Excel（.xlsx）、CSV／TSV，再批次加入海報圖片。</p>
-    <div class="facts"><span class="fact"><strong>1920 × 1080</strong> PNG 輸出</span><span class="fact">單筆 JPG・PNG・WebP；批次不看副檔名</span><span class="fact">最多管理 500 筆</span><span class="fact">資料留在目前瀏覽器</span></div>
+  <h1>海報怎麼做？</h1>
+  <p class="lead">先準備專題的編號、班級、名稱，以及一張海報圖片。第一次使用，可以先試做一張。</p>
+  <nav class="routes" aria-label="選擇操作方式"><a class="route" href="#one">我只想做一張</a><a class="route secondary" href="#many">我有很多張要做</a></nav>
+
+  <section id="one">
+    <h2>只做一張海報</h2><p class="section-intro">在製作室左側點「單筆編輯」，依序完成下面四步。</p>
+    <ol class="steps">
+      <li class="step"><div><h3>填寫專題資料</h3><p>點進欄位，依序輸入 <span class="control">編號</span>、<span class="control">班級</span>、<span class="control">專題名稱</span>。直接輸入就會建立第一筆。要做下一組時，再按<span class="control">「新增一筆」</span>。</p></div></li>
+      <li class="step"><div><h3>從電腦選海報圖片</h3><p>按<span class="control">「選擇海報圖片」</span>。在跳出的視窗裡，到「下載」或「桌面」找到圖片，點一下檔案，再按<span class="control">「開啟」</span>。</p><div class="note">選成功後，右側「海報預覽」會出現圖片。</div></div></li>
+      <li class="step"><div><h3>選版面並確認內容</h3><p>在「海報預覽」右上角按<span class="control">「選擇模板」</span>，點一下喜歡的縮圖。確認編號、班級、名稱和圖片都正確。</p></div></li>
+      <li class="step"><div><h3>把做好的海報存下來</h3><p>按預覽下方的<span class="control">「下載這張 PNG」</span>。PNG 是圖片檔。下載後，通常可在電腦的「下載」資料夾找到它。</p></div></li>
+    </ol>
   </section>
 
-  <section class="section">
-    <h2 class="section-head">基本流程：四步完成一張海報</h2>
-    <div class="steps">
-      <article class="card step"><span class="num">01</span><div><h3>選擇單筆或批次</h3><p>在左側切換「單筆編輯」與「批次匯入」。少量專題逐筆新增最直覺；多筆資料可直接上傳 Excel（.xlsx）或下載 CSV 範本匯入。</p></div></article>
-      <article class="card step"><span class="num">02</span><div><h3>填資料並加入真正的海報圖</h3><p>每筆都要有編號、專題名稱、班級及一張實際海報。請先新增一筆或匯入資料。</p></div></article>
-      <article class="card step"><span class="num">03</span><div><h3>搜尋、排序並看即時預覽</h3><p>在製作清單輸入關鍵字，可搜尋編號、專題名稱、班級、圖片狀態或檔名；點欄位標題即可升冪／降冪排序。點清單資料可切換編輯；也可按頁面上方「圖片相簿」一次檢視所有圖片，點選卡片即可回到該筆資料與預覽。圖片預設「完整顯示（留白）」；想填滿圖片框可改選「填滿（裁切）」。</p></div></article>
-      <article class="card step"><span class="num">04</span><div><h3>下載單張或整批 ZIP</h3><p>按預覽下方「下載這張 PNG」輸出目前一張；按頁面上方「下載全部 ZIP」打包所有正式資料。範例資料會略過；若個別資料缺欄位、圖片或製圖失敗，其他可用海報仍會下載，並以彈窗列出未匯出的資料與原因。</p></div></article>
+  <section id="many">
+    <h2>一次做多張海報</h2><p class="section-intro">準備一份 Excel 名單和每組的圖片。以下用兩組示範檔名怎麼對應。</p>
+    <ol class="steps">
+      <li class="step"><div><h3>先排好 Excel 名單與圖片檔名</h3><p>第一列寫欄位名稱，下面每列填一組。將圖片檔名改成專題編號，就可以留空「海報檔名」欄。</p><div class="table-wrap"><table aria-label="Excel 名單範例"><thead><tr><th scope="col">編號</th><th scope="col">班級</th><th scope="col">名稱</th></tr></thead><tbody><tr><td>A01</td><td>資管四甲</td><td>智慧步態分析</td></tr><tr><td>B02</td><td>多媒四乙</td><td>校園導覽設計</td></tr></tbody></table></div><div class="note">例如 A01 的圖片叫 A01.png，B02 的圖片叫 B02.jpg。圖片另存成檔案，放在同一個資料夾會比較好選。</div></div></li>
+      <li class="step"><div><h3>把名單放進製作室</h3><p>在左側點<span class="control">「批次匯入」</span>，再點<span class="control">「匯入 Excel 或 CSV 資料表」</span>，選取 Excel 檔（.xlsx），再按「開啟」。匯入成功後，會在「製作清單」看到各組。</p></div></li>
+      <li class="step"><div><h3>一次選取所有海報圖片</h3><p>按<span class="control">「批次選擇海報圖片」</span>。按住鍵盤上的 Ctrl，依序點選各組圖片，再按「開啟」。如果系統找到多張同編號圖片，請在彈窗選一張。</p><div class="note">若有「缺少圖片」，點清單上的該組，回到單筆編輯補上圖片。</div></div></li>
+      <li class="step"><div><h3>確認模板，再下載整批海報</h3><p>選好模板後，按頁面上方的<span class="control">「下載全部 ZIP」</span>。到「下載」資料夾找到 ZIP 檔，在 Windows 用滑鼠右鍵點它，選<span class="control">「解壓縮全部」</span>。海報會按領域分到不同資料夾。</p></div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="help-title">
+    <h2 id="help-title">遇到問題怎麼辦？</h2>
+    <div class="help">
+      <details><summary>海報邊緣被切掉了</summary><p>把「圖片配置」改為「完整顯示（留白）」，畫面會保留整張圖片。</p></details>
+      <details><summary>下載時提示有海報沒匯出</summary><p>看提示裡的專題編號和原因，回清單找該組，補齊編號、班級、名稱或圖片，再下載。</p></details>
+      <details><summary>Excel 匯入失敗</summary><p>檢查第一個工作表的第一列有沒有寫「編號、班級、名稱」，每組是否都有填這三欄。也可以按首頁的「下載匯入範本」，依範本填寫。</p></details>
+      <details><summary>下一次打開還能繼續做嗎？</summary><p>請用同一台電腦、同一個瀏覽器和同一個網址。系統會在這個瀏覽器儲存資料。換電腦時，請帶上原始名單和圖片。</p></details>
     </div>
   </section>
-
-  <section class="section">
-    <h2 class="section-head">有很多筆資料？用批次匯入</h2>
-    <div class="details-grid">
-      <article class="card">
-        <h3>先整理資料表</h3>
-        <ul>
-          <li>可直接上傳 Excel（.xlsx）或 CSV 範本；也可從 Excel 複製表格，貼到批次頁的文字框。</li>
-          <li>第一列放欄位名稱；每筆資料一列。必填欄位為編號、名稱、班級；舊表格標題「代碼」也相容。海報檔名可稍後補，先匯入後再上傳圖片也可以。</li>
-          <li>支援 .xlsx（只讀第一個工作表）、UTF-8／Big5 CSV，以及 Tab 分隔的貼上資料。試算表在瀏覽器本機處理，不會上傳；每次匯入只新增資料，不會覆蓋既有紀錄。</li>
-        </ul>
-        <table class="table"><thead><tr><th>欄位</th><th>用途</th><th>範例</th></tr></thead><tbody>
-          <tr><td>編號</td><td>必填；也可用來配對圖片</td><td><span class="mono">A01</span></td></tr>
-          <tr><td>名稱</td><td>必填；海報上的專題名稱</td><td>智慧步態分析</td></tr>
-          <tr><td>班級</td><td>必填</td><td>資管四甲</td></tr>
-          <tr><td>海報檔名</td><td>選填；指定配對圖片</td><td><span class="mono">A01.jpg</span></td></tr>
-        </tbody></table>
-        <div class="note">編號欄也接受舊標題「代碼」或英文 <span class="mono">code</span>；其他標題也可用英文：<span class="mono">name</span>、<span class="mono">class</span>；檔名欄可用 <span class="mono">filename</span> 或 <span class="mono">poster</span>。</div>
-      </article>
-      <article class="card">
-        <h3>再一次選取多張海報圖片</h3>
-        <ul>
-          <li>在「批次匯入」頁面選「批次選擇海報圖片」，可選取瀏覽器能解碼並安全輸出的圖片；不以副檔名限制。</li>
-          <li>依「海報檔名」或編號的檔名主體配對，不比較副檔名。例如欄位填 <span class="mono">A01.jpg</span> 時，<span class="mono">A01.png</span> 也會列為候選。若同一編號找到多張圖片，請在彈窗選擇；無法解碼或無法安全輸出的檔案會列出檔名。</li>
-          <li>回到製作清單檢查圖片狀態；「缺少圖片」代表還沒配對成功，可在單筆編輯中直接上傳。</li>
-        </ul>
-        <div class="note green">批次匯入資料與批次選圖可分兩次操作。已在單筆編輯中人工上傳的圖片，不會被批次配對覆蓋。</div>
-      </article>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-head">常見問題</h2>
-    <div class="faq">
-      <article class="card"><h3>ZIP 裡少了幾張海報怎麼辦？</h3><p>每筆正式資料都必須有編號、名稱、班級和實際圖片。若有資料未通過檢查，其他可用海報仍會打包；請依彈窗中的編號和原因補齊欄位或圖片，再重新下載。範例圖只用來展示版型，不能匯出。</p></article>
-      <article class="card"><h3>圖片被裁掉了怎麼辦？</h3><p>把「圖片配置」改成「完整顯示（留白）」即可保留整張圖；「填滿（裁切）」會讓圖片填滿固定區域，邊緣可能被裁切。</p></article>
-      <article class="card"><h3>我的資料儲存在哪裡？</h3><p>資料與圖片會自動儲存在目前瀏覽器的本機資料庫，不會由這個頁面上傳。換瀏覽器或裝置前，請先下載檔案備份。</p></article>
-      <article class="card"><h3>剛匯入卻看不到資料？</h3><p>確認 CSV 或 Excel 第一個工作表有標題列，且包含編號（或舊欄名「代碼」）、名稱、班級欄位；每筆資料這三欄都需填寫。格式錯誤時，頁面會提示需要修正的內容。</p></article>
-    </div>
-  </section>
-
-  <section class="cta"><div><h2>準備好開始製作了嗎？</h2><p>回到製作室，建立第一筆資料或匯入整批專題。</p></div><a href="./index.html">前往海報製作室　→</a></section>
-  <footer>海報製作室 · 國立臺中科技大學 資訊與流通學院<br>資料僅保存在目前使用的瀏覽器中。</footer>
+  <footer class="foot">國立臺中科技大學 資訊與流通學院<br><a class="return" href="./index.html">回到製作室</a></footer>
 </main>
 </body>
 </html>

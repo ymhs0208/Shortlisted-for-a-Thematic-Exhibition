@@ -1,0 +1,37 @@
+.studio-header {
+  position:sticky; top:0; z-index:5; box-sizing:border-box;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  height:72px; min-height:0; padding:0 clamp(18px,3.5vw,56px);
+  background:linear-gradient(90deg,#0cae70 0 25%,#176fba 25% 50%,#f5b323 50% 75%,#e97aaa 75% 100%) left bottom / 100% 3px no-repeat rgba(255,255,255,.9);
+  backdrop-filter:blur(18px); border-bottom:1px solid #e2eaf0;
+}
+.studio-header::after{content:none}
+.brand-icon{
+  display:block;width:44px;height:44px;object-fit:contain;flex:0 0 44px;
+  border-radius:0;filter:drop-shadow(0 3px 5px rgba(23,54,77,.10));
+}
+.studio-header .header-actions{display:flex;align-items:center;gap:15px;flex-shrink:0}
+.studio-header .guide-link{display:inline-block;padding:9px 12px;border:1px solid #dce9f2;border-radius:9px;background:#fff;color:#1768a8;text-decoration:none;font-size:13px;font-weight:650;line-height:1.25;white-space:nowrap}
+.studio-header .guide-link:hover{background:#eff7fc;border-color:#bfd8e8}
+.studio-header .guide-link:focus-visible{outline:2px solid #176fba;outline-offset:2px}
+@media(max-width:760px){
+  .studio-header{height:64px;padding:0 16px}
+  .studio-header .brand-icon{width:39px;height:39px;flex-basis:39px}
+  .studio-header .header-actions{gap:9px}
+  .studio-header .guide-link{padding:8px 9px;font-size:12px}
+}
+@media(max-width:400px){.studio-header .header-actions{gap:5px}.studio-header .guide-link{padding-inline:6px}}
+.exhibition-brand{display:flex;align-items:center;gap:10px;min-width:0}
+.exhibition-brand-copy{display:grid;gap:2px;min-width:0;line-height:1.05}
+.exhibition-affiliation{display:flex;flex-wrap:wrap;column-gap:.35em;color:#596b86;font-size:12px;font-weight:700}
+.exhibition-college{color:#285d32;white-space:nowrap}
+.exhibition-title{color:#234c83;font-size:23px;font-weight:800;letter-spacing:.025em}
+.exhibition-subtitle{color:#8f456b;font-size:12px;font-weight:700;letter-spacing:.18em}
+@media(max-width:560px){
+  .studio-header,.exhibition-brand{gap:7px}
+  .exhibition-affiliation{font-size:11px}
+  .exhibition-title{font-size:19px}
+  .exhibition-subtitle{font-size:11px}
+  .studio-header .header-actions{flex-shrink:0}
+}
+@media(max-width:400px){.studio-header #galleryTopCount{display:none}}

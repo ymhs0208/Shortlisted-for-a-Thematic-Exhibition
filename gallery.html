@@ -32,9 +32,20 @@
 @keyframes skeleton-shimmer{to{transform:translateX(100%)}}
 @media(prefers-reduced-motion:reduce){.skeleton-block::after{animation:none;transform:none;opacity:.3}}
 </style>
+<link rel="stylesheet" href="./site-header.css">
 </head>
 <body>
-<header><div class="brand"><img src="./favicon.png" alt="">海報製作室 <span class="tag">／ 專題成果展</span></div><nav class="nav" aria-label="主要導覽"><a href="./index.html">回到海報製作室</a><a class="primary" href="./index.html">新增或匯入資料</a></nav></header>
+<header class="studio-header">
+  <div class="exhibition-brand">
+    <img class="brand-icon" src="./favicon.png" alt="">
+    <div class="exhibition-brand-copy">
+    <div class="exhibition-affiliation"><span>國立臺中科技大學</span><span class="exhibition-college"><span aria-hidden="true">・</span>資訊與流通學院</span></div>
+    <div class="exhibition-title">專題成果展</div>
+    <div class="exhibition-subtitle">海報製作室</div>
+    </div>
+  </div>
+  <nav class="header-actions" aria-label="主要導覽"><a class="guide-link" href="./index.html">回製作室</a><a class="guide-link" href="./index.html" aria-label="新增或匯入資料">新增／匯入</a></nav>
+</header>
 <main class="wrap">
   <section class="intro"><div><div class="eyebrow">Project image library</div><h1>圖片相簿</h1><p>集中檢視每筆專題的圖片與狀態。點選任一卡片，就能回到海報製作室編輯該筆資料。</p></div><div class="intro-actions"><span class="privacy">資料只儲存在這個瀏覽器</span><button id="startShow" class="show-button" type="button" disabled>▶ 播放幻燈片</button></div></section>
   <section class="toolbar" aria-label="搜尋與檢視圖片相簿"><label class="search"><input id="search" type="search" placeholder="搜尋編號、專題名稱、班級或檔名…" aria-label="搜尋圖片相簿"></label><span id="count" class="count" aria-live="polite">讀取中…</span><div class="mode-switch" role="group" aria-label="相簿檢視方式"><button id="modeSource" class="mode-button active" type="button" aria-pressed="true">專題圖片</button><button id="modePoster" class="mode-button" type="button" aria-pressed="false">製作海報</button></div></section>
