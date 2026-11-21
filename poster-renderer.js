@@ -39,15 +39,6 @@
     });
   }
 
-  function createDemoPosterUrl(template) {
-    const [x, y, width, height] = getPosterTemplate('original').poster;
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    canvas.getContext('2d').drawImage(template, x, y, width, height, 0, 0, width, height);
-    return canvas.toDataURL('image/png');
-  }
-
   function wrapText(ctx, text, maxWidth) {
     const lines = [''];
     for (const character of String(text || '')) {
@@ -133,5 +124,4 @@
   root.posterTemplates = templates;
   root.getPosterTemplate = getPosterTemplate;
   root.loadPosterTemplate = loadPosterTemplate;
-  root.createDemoPosterUrl = createDemoPosterUrl;
 })(globalThis);
