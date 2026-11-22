@@ -19,11 +19,41 @@ import { getPosterTemplate, loadPosterTemplate, posterTemplates, renderPosterCan
 const $ = id => document.getElementById(id);
 const blank = blankRecord;
 
+const colorField = document.createElement('div');
+colorField.className = 'field color-field';
+colorField.innerHTML = `
+  <label for="textColor">文字顏色</label>
+  <div class="color-control">
+    <input id="textColor" type="color" aria-describedby="textColorHelp">
+    <button id="templateColorPreset" class="color-preset" type="button">
+      <span aria-hidden="true"></span>使用模板預設色
+    </button>
+  </div>
+  <div class="help" id="textColorHelp">套用到編號、班級與專題名稱</div>
+`;
+document.getElementById('name').closest('.field').after(colorField);
+
 let selectedTemplateId = 'original';
 let templateRequest = 0;
 const templateDialog = $('templateDialog');
 const templateGrid = $('templateGrid');
 const templateStatus = $('templateStatus');
+
+$('templateColorPreset').addEventListener('click', () => {
+  const record = current();
+  if (!stateReady || !record?.textColor) return;
+  record.textColor = '';
+  syncTextColor();
+  draw();
+  scheduleSave();
+});
+
+function syncTextColor() {
+  const template = getPosterTemplate(selectedTemplateId);
+  const textColor = current()?.textColor || template.textColor;
+  $('textColor').value = textColor;
+  $('templateColorPreset').style.setProperty('--preset-color', template.textColor);
+}
 
 function updateTemplateUI() {
   for (const button of templateGrid.querySelectorAll('[data-template]')) {
@@ -48,6 +78,7 @@ async function selectTemplate(id) {
     base = image;
     selectedTemplateId = id;
     updateTemplateUI();
+    syncTextColor();
     draw();
     scheduleSave();
     templateDialog.close();
@@ -71,7 +102,13 @@ for (const template of posterTemplates) {
   currentMark.className = 'template-current';
   currentMark.textContent = '使用中';
   currentMark.setAttribute('aria-hidden', 'true');
-  caption.append(template.name, currentMark);
+  const colorMark = document.createElement('span');
+  colorMark.className = 'template-color-mark';
+  colorMark.style.backgroundColor = template.textColor;
+  colorMark.title = '建議文字色';
+  colorMark.setAttribute('role', 'img');
+  colorMark.setAttribute('aria-label', '建議文字色');
+  caption.append(template.name, colorMark, currentMark);
   button.append(image, caption);
   button.addEventListener('click', () => selectTemplate(template.id));
   templateGrid.append(button);
@@ -152,6 +189,7 @@ function sync() {
   for (const [id, key] of [['code', 'code'], ['name', 'name'], ['className', 'className'], ['fit', 'fit']]) {
     $(id).value = record?.[key] ?? (id === 'fit' ? 'contain' : '');
   }
+  syncTextColor();
   $('imageName').textContent = record?.imageLabel || '尚未加入圖片';
   $('editIndex').textContent = record ? `第 ${selected + 1} 筆` : '可直接輸入';
   $('remove').disabled = !record;
@@ -257,7 +295,7 @@ function startFirstRecord() {
   return record;
 }
 
-for (const [id, key] of [['code', 'code'], ['name', 'name'], ['className', 'className'], ['fit', 'fit']]) {
+for (const [id, key] of [['code', 'code'], ['name', 'name'], ['className', 'className'], ['fit', 'fit'], ['textColor', 'textColor']]) {
   $(id).addEventListener('input', () => {
     if (!stateReady) return;
     const value = $(id).value;
@@ -281,6 +319,7 @@ $('add').onclick = () => {
   sync();
   scheduleSave();
   $('code').focus();
+  advanceStudioTour('add');
 };
 $('remove').onclick = () => {
   if (!current()) return;
@@ -412,6 +451,7 @@ $('poster').onchange = async event => {
       scheduleSave();
       toast('已加入海報圖片');
       advanceStudioTour('poster');
+      updateBatchImageTour();
     } catch (error) {
       toast(error.message);
     }
@@ -476,7 +516,7 @@ function resolveImageChoices(apply) {
     sync();
     scheduleSave();
     toast(`已為 ${choices.length} 筆專題選擇圖片`);
-    advanceStudioTour('images');
+    updateBatchImageTour();
   } else toast('已略過多張圖片的選擇；其他唯一配對已套用');
 }
 $('cancelImageChoices').onclick = () => resolveImageChoices(false);
@@ -714,7 +754,7 @@ $('images').onchange = async event => {
       const result = matchImages();
       sync();
       scheduleSave();
-      if (result.matched && !result.ambiguous) advanceStudioTour('images');
+      if (!result.ambiguous) updateBatchImageTour();
       if (loaded.length || result.matched) {
         toast(`成功解碼 ${loaded.length} 張圖片；自動配對 ${result.matched} 筆${result.ambiguous ? `，另有 ${result.ambiguous} 筆請選擇圖片` : ''}`);
       } else if (errors.length) toast(`沒有圖片能解碼；${errors.length} 個檔名已列於批次匯入區`);
@@ -770,7 +810,7 @@ $('exportOne').onclick = () => {
       validate(record);
       download(await png(record), safe(record.code + '_' + record.name) + '.png');
       toast('海報已開始下載');
-      advanceStudioTour('download');
+      advanceStudioTour('download-one');
     } catch (error) { toast(error.message); }
   });
 };
@@ -854,7 +894,7 @@ $('exportAll').onclick = () => runOperation($('exportAll'), '正在準備海報�
       if (issues.length) showExportIssues(issues, files.length);
       else {
         toast(`已打包 ${files.length} 張海報`);
-        advanceStudioTour('download');
+        advanceStudioTour('download-all');
       }
     } catch (error) {
       showExportIssues(issues, 0, error.message || '打包時發生未知錯誤');
@@ -900,6 +940,8 @@ function scheduleSave() {
 
 async function materializeRecord(data) {
   const record = { ...blank(), ...clearDemoImage(data), image: null };
+  // Records saved before template-specific colors used the original blue as a default.
+  if (record.textColor === '#1559a2') record.textColor = '';
   delete record.isStarter;
   try {
     if (record.imageBlob) record.image = await loadBlob(record.imageBlob);
@@ -980,67 +1022,190 @@ async function initializeStudio() {
 }
 
 const studioTourMode = new URLSearchParams(location.search).get('tour');
+const studioTour = $('studioTour');
+const studioHeader = document.querySelector('.studio-header');
 let studioTourSteps = [];
 let studioTourIndex = -1;
 let studioTourTarget;
-const templateTourStep = ['template', '#openTemplates', '按「選擇模板」，再點一張縮圖確認版面。'];
+
+const templateTourStep = {
+  action: 'template', target: '#openTemplates', title: '挑選版面',
+  hint: '按「選擇模板」，再點一張喜歡的版面。沿用現在的模板，直接按「下一步」。',
+};
+
+function tourFeedback(message = '') {
+  const feedback = $('studioTourFeedback');
+  feedback.hidden = !message;
+  feedback.textContent = message;
+}
+
+function scrollToStudioTourTarget(center = false) {
+  if (!studioTourTarget?.getClientRects().length) return;
+  const viewport = window.visualViewport;
+  const viewportTop = viewport?.offsetTop ?? 0;
+  const viewportBottom = viewportTop + (viewport?.height ?? window.innerHeight);
+  const target = studioTourTarget.getBoundingClientRect();
+  const panel = studioTour.getBoundingClientRect();
+  const top = Math.max(viewportTop, studioHeader.getBoundingClientRect().bottom) + 14;
+  const bottom = Math.min(viewportBottom, panel.top > top ? panel.top : viewportBottom) - 14;
+  const availableHeight = bottom - top;
+  if (availableHeight <= 0) return;
+  if (!center && target.top >= top && target.bottom <= bottom) return;
+  const desiredTop = top + Math.max(0, (availableHeight - target.height) / 2);
+  window.scrollBy({ top: target.top - desiredTop, behavior: 'instant' });
+}
+
+function locateStudioTourStep(focus = false) {
+  const step = studioTourSteps[studioTourIndex];
+  if (!step) return;
+  if (step.tab) setTab(step.tab === 'batch');
+  scrollToStudioTourTarget(focus);
+  if (focus) studioTourTarget?.focus({ preventScroll: true });
+}
+
+function keepFocusedTourTargetVisible() {
+  if (studioTourTarget === document.activeElement) scrollToStudioTourTarget();
+}
 
 function showStudioTourStep() {
   studioTourTarget?.classList.remove('tour-target');
   const step = studioTourSteps[studioTourIndex];
-  $('studioTourStep').textContent = step ? '第 ' + (studioTourIndex + 1) + ' 步／共 ' + studioTourSteps.length + ' 步' : '導覽完成';
-  $('studioTourHint').textContent = step ? step[2] : '檔案已開始下載，通常可在「下載」資料夾找到。';
-  studioTourTarget = step ? document.querySelector(step[1]) : null;
+  const mode = studioTourMode === 'single' ? '做一張' : '批次製作';
+  const progress = $('studioTourProgress');
+  progress.max = studioTourSteps.length;
+  progress.value = Math.min(studioTourIndex + 1, progress.max);
+  $('studioTourStep').textContent = step ? `${mode}・第 ${progress.value} 步，共 ${progress.max} 步` : mode;
+  $('studioTourTitle').textContent = step?.title || '下載已開始';
+  $('studioTourHint').textContent = step?.hint || '到瀏覽器的「下載」查看檔案。';
+  $('stopStudioTour').textContent = step ? '離開導覽' : '完成';
+  const back = $('studioTourBack');
+  const next = $('studioTourNext');
+  const locate = $('studioTourLocate');
+  const focusedControl = document.activeElement;
+  back.disabled = studioTourIndex === 0;
+  next.textContent = step?.nextLabel || '下一步';
+  next.hidden = !step || !!step.last;
+  locate.hidden = !step;
+  tourFeedback();
+  studioTourTarget = step ? document.querySelector(step.target) : null;
   studioTourTarget?.classList.add('tour-target');
-  studioTourTarget?.scrollIntoView({ block: 'center', inline: 'nearest' });
+  if ((focusedControl === next && next.hidden) || (focusedControl === back && back.disabled)) {
+    $('studioTourTitle').focus({ preventScroll: true });
+  }
+  locateStudioTourStep();
 }
 
 function advanceStudioTour(action) {
-  if (studioTourSteps[studioTourIndex]?.[0] !== action) return;
+  if (studioTourSteps[studioTourIndex]?.action !== action) return;
   studioTourIndex++;
   showStudioTourStep();
 }
 
+function updateBatchImageTour() {
+  if (studioTourSteps[studioTourIndex]?.action !== 'images') return;
+  const missing = records.filter(record => !record.image).length;
+  if (records.length && !missing) {
+    advanceStudioTour('images');
+  } else if (missing) {
+    const canContinue = missing < records.length ? '也可以按「下一步」，先處理已配對的海報。' : '';
+    tourFeedback(`還有 ${missing} 筆缺少圖片。檢查檔名，或點製作清單中的資料補上圖片。${canContinue}`);
+  }
+}
+
 function startStudioTour() {
   if (studioTourMode !== 'single' && studioTourMode !== 'batch') return;
-  if (studioTourMode === 'single') {
-    setTab(false);
-    studioTourSteps = [
-      ...(records.length ? [['add', '#add', '按「新增一筆」，建立一組新的專題。']] : []),
-      ['code', '#code', '點框起來的欄位，輸入專題編號，例如 A01。'],
-      ['className', '#className', '輸入班級，例如資管四甲。'],
-      ['name', '#name', '輸入專題名稱，填完後點欄位外面或按 Tab。'],
-      ['poster', 'label[for="poster"]', '按「選擇海報圖片」，從電腦選一張海報，然後按「開啟」。'],
-      templateTourStep,
-      ['download', '#exportOne', '確認預覽後，按「下載這張 PNG」。'],
-    ];
-    $('add').addEventListener('click', () => advanceStudioTour('add'));
-    for (const id of ['code', 'className', 'name']) {
-      $(id).addEventListener('change', () => {
-        if ($(id).value.trim()) advanceStudioTour(id);
-      });
-    }
-  } else {
-    setTab(true);
-    studioTourSteps = [
-      ['import', 'label[for="spreadsheet"]', '按「匯入 Excel 或 CSV 資料表」，選擇已填好編號、班級和名稱的檔案。'],
-      ['images', 'label[for="images"]', '按「批次選擇海報圖片」。圖片檔名使用專題編號，例如 A01.png。如果出現候選圖片，請先選擇並套用。'],
-      templateTourStep,
-      ['download', '#exportAll', '按「下載全部 ZIP」。如果有未匯出的專題，可依提示補齊後重試。'],
-    ];
-  }
+  const firstRecord = {
+    action: 'add', target: '#add', tab: 'single', title: '選擇要編輯的專題',
+    hint: '要做新專題，按「新增一筆」。也可以繼續編輯目前這筆。',
+    nextLabel: '使用目前這筆',
+  };
+  const singleSteps = [
+    ...(records.length ? [firstRecord] : []),
+    {
+      action: 'details', target: '#code', tab: 'single', title: '填寫專題資料',
+      hint: '填上編號、班級、專題名稱，三欄填完後按「下一步」。',
+      check: () => {
+        const record = current();
+        const missing = [['code', '編號'], ['className', '班級'], ['name', '專題名稱']]
+          .filter(([key]) => !record?.[key]?.trim()).map(([, label]) => label);
+        return missing.length ? `請填寫${missing.join('、')}。` : '';
+      },
+    },
+    {
+      action: 'poster', target: 'label[for="poster"]', tab: 'single', title: '加入海報圖片',
+      hint: '按「選擇海報圖片」，從裝置選一張圖片。已經有圖片時，可直接按「下一步」。',
+      check: () => current()?.image ? '' : '請先選擇海報圖片。',
+    },
+    templateTourStep,
+    {
+      action: 'download-one', target: '#exportOne', title: '下載這張海報',
+      hint: '確認預覽裡的資料和圖片，再按「下載這張 PNG」。', last: true,
+    },
+  ];
+  const batchSteps = [
+    {
+      action: 'prepare', target: '#sample', title: '準備專題名單',
+      hint: '可按「下載匯入範本」，用 Excel 開啟 CSV，一組填一列。有名單就按「下一步」。',
+    },
+    {
+      action: 'import', target: 'label[for="spreadsheet"]', tab: 'batch', title: '匯入專題名單',
+      hint: '按「匯入 Excel 或 CSV 資料表」，選擇填好的名單。若清單已有資料，也可直接繼續。',
+      check: () => records.length ? '' : '請先匯入至少一筆專題資料。',
+    },
+    {
+      action: 'images', target: 'label[for="images"]', tab: 'batch', title: '加入各組圖片',
+      hint: '圖片用專題編號命名，例如 A01.png。按「批次選擇海報圖片」，一次選取多張。',
+      check: () => records.some(record => record.image) ? '' : '請先配對至少一張圖片。檢查檔名是否和編號相同。',
+    },
+    templateTourStep,
+    {
+      action: 'download-all', target: '#exportAll', title: '下載整批海報',
+      hint: '檢查製作清單，再按「下載全部 ZIP」。如果有未匯出的項目，依畫面提示補齊。', last: true,
+    },
+  ];
+  studioTourSteps = studioTourMode === 'single' ? singleSteps : batchSteps;
   studioTourIndex = 0;
-  $('studioTour').classList.remove('hidden');
+  setTab(studioTourMode === 'batch');
+  studioTour.classList.remove('hidden');
   document.body.classList.add('tour-in-progress');
-  $('stopStudioTour').addEventListener('click', () => {
+  const panelSize = new ResizeObserver(() => {
+    document.body.style.setProperty('--tour-height', `${studioTour.offsetHeight}px`);
+  });
+  panelSize.observe(studioTour);
+  window.visualViewport?.addEventListener('resize', keepFocusedTourTargetVisible);
+
+  $('studioTourBack').onclick = () => {
+    if (studioTourIndex > 0) {
+      studioTourIndex--;
+      showStudioTourStep();
+    }
+  };
+  $('studioTourLocate').onclick = () => locateStudioTourStep(true);
+  $('studioTourNext').onclick = () => {
+    const step = studioTourSteps[studioTourIndex];
+    if (!step || step.last) return;
+    const problem = step.check?.();
+    if (problem) {
+      tourFeedback(problem);
+      return;
+    }
+    advanceStudioTour(step.action);
+  };
+  $('stopStudioTour').onclick = () => {
+    const focusTarget = studioTourTarget || document.querySelector('.header-actions a[href="./guide.html"]');
     studioTourTarget?.classList.remove('tour-target');
+    studioTourTarget = null;
     studioTourIndex = -1;
-    $('studioTour').classList.add('hidden');
+    studioTour.classList.add('hidden');
+    panelSize.disconnect();
+    window.visualViewport?.removeEventListener('resize', keepFocusedTourTargetVisible);
+    document.body.style.removeProperty('--tour-height');
     document.body.classList.remove('tour-in-progress');
     const url = new URL(location.href);
     url.searchParams.delete('tour');
     history.replaceState(null, '', url);
-  });
+    focusTarget?.focus({ preventScroll: true });
+  };
   showStudioTourStep();
 }
 

@@ -17,6 +17,7 @@ export function blankRecord() {
     imageLabel: '',
     imageSource: '',
     fit: 'contain',
+    textColor: '',
   };
 }
 

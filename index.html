@@ -53,7 +53,17 @@
   <div class="template-grid" id="templateGrid"></div>
   <p class="template-status" id="templateStatus" role="status"></p>
 </dialog><dialog id="clearAllDialog" class="confirm-dialog" aria-labelledby="clearAllTitle" aria-describedby="clearAllDescription"><div class="confirm-dialog-inner"><div class="confirm-dialog-icon" aria-hidden="true">!</div><h2 id="clearAllTitle">確定要刪除全部資料？</h2><p id="clearAllDescription">此操作會清除這個瀏覽器儲存的所有專題資料與已匯入圖片，並移除刪除復原紀錄。完成後無法復原。</p><div id="clearAllCount" class="delete-count"></div><div class="dialog-actions"><button id="cancelClearAll" type="button">取消</button><button id="confirmClearAll" class="danger" type="button">刪除全部資料</button></div></div></dialog><dialog id="duplicateImportDialog" class="confirm-dialog import-duplicate-dialog" aria-labelledby="duplicateImportTitle" aria-describedby="duplicateImportDescription"><div class="confirm-dialog-inner"><div class="confirm-dialog-icon import-duplicate-icon" aria-hidden="true">↻</div><h2 id="duplicateImportTitle">匯入資料含有重複編號</h2><p id="duplicateImportDescription">這批資料中有 <strong id="duplicateImportCount"></strong> 個編號已存在。請選擇處理方式。</p><div id="duplicateImportCodes" class="duplicate-code-list" aria-label="已存在的編號"></div><p class="duplicate-import-note">「覆寫重複資料」會更新相同編號的表格欄位，新編號照常新增。已手動上傳的圖片會保留；自動配對圖片會依匯入檔名重新配對。</p><div class="dialog-actions"><button id="cancelDuplicateImport" type="button">取消匯入</button><button id="addDuplicateImport" type="button">全部新增</button><button id="overwriteDuplicateImport" class="primary" type="button">覆寫重複資料</button></div></div></dialog><dialog id="imageChoiceDialog" class="confirm-dialog image-choice-dialog" aria-labelledby="imageChoiceTitle" aria-describedby="imageChoiceDescription"><div class="confirm-dialog-inner"><div class="confirm-dialog-icon image-choice-icon" aria-hidden="true">▧</div><h2 id="imageChoiceTitle">同一編號找到多張圖片</h2><p id="imageChoiceDescription">請為下列專題各選一張圖片。配對依檔名主體，不會只因副檔名不同而忽略圖片。</p><div id="imageChoiceList" class="image-choice-list"></div><div class="dialog-actions"><button id="cancelImageChoices" type="button">略過這些選擇</button><button id="applyImageChoices" class="primary" type="button">套用選擇</button></div></div></dialog><aside id="studioTour" class="studio-tour hidden" aria-label="操作導覽">
-  <div class="studio-tour-head"><strong id="studioTourStep"></strong><button id="stopStudioTour" type="button">結束導覽</button></div>
-  <p id="studioTourHint" role="status"></p>
+  <div class="studio-tour-head"><span id="studioTourStep"></span><button id="stopStudioTour" type="button">離開導覽</button></div>
+  <progress id="studioTourProgress" aria-label="導覽進度"></progress>
+  <div class="studio-tour-instruction" aria-live="polite" aria-atomic="true">
+    <h2 id="studioTourTitle" tabindex="-1"></h2>
+    <p id="studioTourHint"></p>
+  </div>
+  <p id="studioTourFeedback" class="studio-tour-feedback" role="status" hidden></p>
+  <div class="studio-tour-actions">
+    <button id="studioTourLocate" class="studio-tour-locate" type="button"><span aria-hidden="true">⌖</span>定位到這裡</button>
+    <button id="studioTourBack" type="button">上一步</button>
+    <button id="studioTourNext" class="primary" type="button">下一步</button>
+  </div>
 </aside><div id="message" class="hidden" role="status" aria-live="polite"></div>
 <script type="module" src="./js/studio.js"></script></body></html>

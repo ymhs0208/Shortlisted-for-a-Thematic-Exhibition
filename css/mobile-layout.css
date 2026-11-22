@@ -64,12 +64,4 @@
   .gallery-page .slide-controls { gap:8px; padding:8px }
   .gallery-page .slide-close,.gallery-page .slide-controls button { min-height:44px }
 
-  .guide-page main { padding:19px 14px 22px }
-  .guide-page .routes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px }
-  .guide-page .route { display:grid; place-items:center; padding:7px; min-height:44px; text-align:center; font-size:14px }
-  .guide-page section { margin-top:23px; scroll-margin-top:76px }
-  .guide-page .step { padding:12px; gap:9px }
-  .guide-page .control { white-space:normal }
-  .guide-page .table-wrap table { min-width:0; width:100%; font-size:13px }
-  .guide-page .table-wrap th,.guide-page .table-wrap td { padding:4px 5px }
 }
