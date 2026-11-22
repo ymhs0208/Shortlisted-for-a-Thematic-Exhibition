@@ -216,8 +216,15 @@ function updateDomainStats() {
     if (Object.prototype.hasOwnProperty.call(counts, code)) counts[code]++;
   }
   const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
-  $('domainTotal').textContent = `已分類 ${total} 件`;
-  $('domainStats').innerHTML = DOMAINS.map(([code, name]) => `<div class="domain-card" role="listitem" aria-label="${code} ${escapeHTML(name)}，${counts[code]} 件"><div class="domain-card-top"><span class="domain-code">${code}</span><span class="domain-label">${escapeHTML(name)}</span></div><div class="domain-card-count"><strong>${counts[code]}</strong><span>件</span></div></div>`).join('');
+  if ($('domainTotal').textContent !== String(total)) $('domainTotal').textContent = total;
+  $('domainStats').innerHTML = DOMAINS.map(([code, name]) => {
+    const count = counts[code];
+    return `<li class="domain-row">
+      <span class="domain-code">${code}</span>
+      <span class="domain-label">${escapeHTML(name)}</span>
+      <span class="domain-count${count ? ' domain-count-active' : ''}"><strong>${count}</strong> 件</span>
+    </li>`;
+  }).join('');
 }
 
 function list() {
